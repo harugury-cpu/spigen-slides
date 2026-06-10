@@ -112,6 +112,38 @@ Q. 항목이 몇 개인가?
 
 ---
 
+## V3 리치 블록 — 수치·차트·일정·상태·이미지 (builder 메서드)
+
+> 원본에 수치/일정/상태가 있으면 텍스트 카드보다 이 계열을 먼저 검토한다.
+> 모두 `b.start_slide()` 후 호출. HTML 시안(`HtmlDeck`)에서도 동일 시그니처.
+
+### `b.stat_row()` ★수치가 주인공일 때 1순위★
+- 언제: 목표/실적/달성률 등 핵심 수치 2~4개를 큰 숫자로
+- 예: "96.4% 달성 | 12건 완료 | D-17"
+- delta로 변화량 표기 (delta_tone: good/warn/bad)
+
+### `b.bars()` ★양 비교★
+- 언제: 항목별 수치 크기·비중 비교 (점유율, 건수, 비용)
+- primary=True 막대 1개만 오렌지 — 오렌지 규율 자동 준수
+
+### `b.progress()` — 진행률 바
+- 언제: 항목별 진척도 %를 한 줄씩
+- badge()와 행 단위로 조합하면 품목별 현황판이 됨
+
+### `b.timeline()` ★일정 슬라이드 1순위★
+- 언제: 날짜 순 마일스톤 3~6개
+- state: done(green) / current(orange, 1개) / next(중립)
+
+### `b.badge()` — 상태 칩
+- 언제: 완료/진행중/대기/위험 짧은 상태 라벨
+- tone: good / warn / bad / accent / neutral — 시맨틱 틴트 배경 자동
+
+### `b.image()` / `b.full_image()` — 이미지 증빙
+- 언제: 스크린샷, 제품 컷, 도식 PNG 등 실물이 더 빠를 때
+- 공개 접근 가능한 URL 필수
+
+---
+
 ## 텍스트/숫자 계열
 
 ### `mk_text_block()`
@@ -150,6 +182,11 @@ Q. 항목이 몇 개인가?
 ## 빠른 선택 가이드
 
 ```
+"얼마나 했는가 (수치)"    → b.stat_row() 또는 b.progress()
+"무엇이 더 큰가"          → b.bars()
+"언제까지 하는가"         → b.timeline()
+"지금 어떤 상태인가"      → b.badge() + progress/카드 조합
+"실물을 보여줘"           → b.image() / b.full_image()
 "왜 바꾸는가" 슬라이드    → mk_compare_rows()
 "어떻게 돌아가는가"       → mk_flow() 또는 mk_flow_focus()
 "누가 무엇을 하는가"      → mk_swimlane_mapping()

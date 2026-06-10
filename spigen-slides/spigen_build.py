@@ -144,7 +144,12 @@ COLORS = {
         "border_hi":     {"red": 0.282, "green": 0.282, "blue": 0.282},   # 20% 합성 (#484848)
         # 시맨틱
         "good":          {"red": 0.204, "green": 0.659, "blue": 0.325},   # #34A853
+        "warn":          {"red": 0.961, "green": 0.690, "blue": 0.255},   # #F5B041 (대기/보정/NEXT)
         "bad":           {"red": 1.000, "green": 0.478, "blue": 0.478},   # #FF7A7A
+        # 시맨틱 틴트 배경 (14% on #000 합성 — badge/하이라이트 전용)
+        "good_bg":       {"red": 0.029, "green": 0.092, "blue": 0.046},
+        "warn_bg":       {"red": 0.135, "green": 0.097, "blue": 0.036},
+        "bad_bg":        {"red": 0.140, "green": 0.067, "blue": 0.067},
     },
     "light": {
         # 기본
@@ -166,7 +171,12 @@ COLORS = {
         "border_hi":     {"red": 0.843, "green": 0.835, "blue": 0.816},   # 13% 합성 (#D7D5D0)
         # 시맨틱
         "good":          {"red": 0.122, "green": 0.651, "blue": 0.290},   # #1FA64A
+        "warn":          {"red": 0.718, "green": 0.475, "blue": 0.122},   # #B7791F (흰 배경 대비용 amber)
         "bad":           {"red": 0.773, "green": 0.188, "blue": 0.188},   # #C53030
+        # 시맨틱 틴트 배경 (10% on #FFF 합성 — badge/하이라이트 전용)
+        "good_bg":       {"red": 0.912, "green": 0.965, "blue": 0.929},
+        "warn_bg":       {"red": 0.972, "green": 0.948, "blue": 0.912},
+        "bad_bg":        {"red": 0.977, "green": 0.919, "blue": 0.919},
     },
 }
 
@@ -1505,6 +1515,329 @@ class SpigenBuilder:
         else:
             self._hline(sid, x, y, w, weight=0.75, color=self.c["dim"])
 
+    # ── V3 리치 블록 — 수치·차트·일정·상태·이미지 ──────────────────
+    # HTML 대시보드 수준의 표현을 native(편집 가능한) Slides 요소로 재현.
+    # tone: "accent" | "good" | "warn" | "bad" | "neutral"
+
+    _TONES = {
+        "accent":  ("accent", "accent_bg"),
+        "good":    ("good", "good_bg"),
+        "warn":    ("warn", "warn_bg"),
+        "bad":     ("bad", "bad_bg"),
+        "neutral": ("dim", "surface_hi"),
+    }
+
+    def _tone(self, tone):
+        """tone 이름 → (전경색, 틴트 배경색)."""
+        fg_key, bg_key = self._TONES.get(tone or "accent", self._TONES["accent"])
+        return self.c[fg_key], self.c[bg_key]
+
+    def _num_font(self, value):
+        """숫자/영문 전용 값은 Proxima Nova, 한글 포함이면 Noto Sans KR."""
+        import re
+        return "Noto Sans KR" if re.search(r"[가-힣]", str(value)) else "Proxima Nova"
+
+    def _ellipse(self, page_oid, x, y, w, h, fill, border=None, weight=0.5):
+        """원형 도형 (타임라인 dot 등)."""
+        oid = _uid()
+        self.reqs.append({
+            "createShape": {
+                "objectId": oid,
+                "shapeType": "ELLIPSE",
+                "elementProperties": {
+                    "pageObjectId": page_oid,
+                    "size": _size(w, h),
+                    "transform": _transform(x, y),
+                },
+            }
+        })
+        self.reqs.append({
+            "updateShapeProperties": {
+                "objectId": oid,
+                "shapeProperties": {
+                    "shapeBackgroundFill": {"solidFill": {"color": _rgb(fill)}},
+                    "outline": {
+                        "outlineFill": {"solidFill": {"color": _rgb(border or fill)}},
+                        "weight": _pt(weight),
+                    },
+                },
+                "fields": "shapeBackgroundFill,outline",
+            }
+        })
+        return oid
+
+    def stat(self, x, y, w, value, label="", delta="", tone=None,
+             delta_tone="good", h=80):
+        """큰 숫자 메트릭 블록 — HTML 대시보드의 stat 카드 스타일.
+
+        구성 (위→아래): label(8pt dim 대문자) → value(36pt bold) → delta(9pt 시맨틱).
+
+        Args:
+            value:      핵심 수치 ('96.4%', '12건', 'QR 1종')
+            label:      수치 위 설명 라벨 (예: 'H1 달성률')
+            delta:      수치 아래 변화/부연 (예: '+4.2%p', '전월 대비 증가')
+            tone:       value 색. None=기본 텍스트색(권장), 'accent'는 핵심 1개만
+            delta_tone: delta 색 — 'good'(증가/정상) / 'bad'(감소/위험) / 'warn'(대기)
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("stat(): start_slide()를 먼저 호출하세요.")
+        value_color = self.c["fg"] if tone is None else self._tone(tone)[0]
+        vy = y
+        if label:
+            lo = _uid()
+            self._shape(sid, lo, x, y, w, 12)
+            self._text(lo, str(label).upper())
+            self._style(lo, 8, bold=True, color=self.c["dim"],
+                        font_family="Proxima Nova")
+            vy = y + 16
+        vo = _uid()
+        self._shape(sid, vo, x, vy, w, 44)
+        br = self._text_md(vo, str(value))
+        self._style(vo, 36, bold=True, color=value_color,
+                    font_family=self._num_font(value))
+        self._apply_bold_ranges(vo, br)
+        if delta:
+            do = _uid()
+            self._shape(sid, do, x, vy + 46, w, 14)
+            self._text(do, str(delta))
+            self._style(do, 9, bold=True, color=self._tone(delta_tone)[0])
+
+    def stat_row(self, y, stats, x=48, w=624, h=80, dividers=True):
+        """메트릭 N개 가로 배치 + 구분선 — 핵심 수치 슬라이드의 표준.
+
+        stats: [{"value": "96.4%", "label": "달성률", "delta": "+4.2%p",
+                 "tone": None, "delta_tone": "good"}, ...]  (2~4개 권장)
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("stat_row(): start_slide()를 먼저 호출하세요.")
+        n = max(len(stats), 1)
+        gap = 24
+        col_w = (w - gap * (n - 1)) / n
+        for i, s in enumerate(stats):
+            cx = x + i * (col_w + gap)
+            self.stat(cx, y, col_w, s.get("value", ""), s.get("label", ""),
+                      s.get("delta", ""), s.get("tone"),
+                      s.get("delta_tone", "good"), h=h)
+            if dividers and i > 0:
+                self._vline(sid, cx - gap / 2, y + 6, h - 12,
+                            weight=0.5, color=self.c["border"])
+
+    def bars(self, x, y, w, data, max_value=None, bar_h=16, gap=10,
+             label_w=120, value_w=56):
+        """가로 바 차트 — 항목별 수치 크기 비교. native rect라 편집 가능.
+
+        data: [{"label": "기존", "value": 42, "display": "42건",
+                "primary": False}, ...]
+        primary=True 막대 1개만 accent, 나머지는 중립 회색 (오렌지 규율 자동 준수).
+        display 생략 시 value 그대로 표기.
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("bars(): start_slide()를 먼저 호출하세요.")
+        vals = [float(d.get("value", 0)) for d in data]
+        mv = float(max_value) if max_value else (max(vals) if vals else 1.0)
+        mv = mv or 1.0
+        track_x = x + label_w + 10
+        track_w = w - label_w - 10 - value_w - 8
+        for i, d in enumerate(data):
+            ry = y + i * (bar_h + gap)
+            lo = _uid()
+            self._shape(sid, lo, x, ry, label_w, bar_h)
+            self._text(lo, str(d.get("label", "")))
+            self._style(lo, 9, color=self.c["fg"])
+            self._rect(sid, track_x, ry, track_w, bar_h,
+                       self.c["surface_hi"], self.c["border"], 0.4)
+            ratio = max(0.0, min(1.0, float(d.get("value", 0)) / mv))
+            fill_w = track_w * ratio
+            if d.get("primary"):
+                fill_color = self._tone(d.get("tone", "accent"))[0]
+            elif d.get("tone"):
+                fill_color = self._tone(d["tone"])[0]
+            else:
+                fill_color = self.c["border_hi"]
+            if fill_w >= 1:
+                self._rect(sid, track_x, ry, fill_w, bar_h,
+                           fill_color, fill_color, 0)
+            vo = _uid()
+            self._shape(sid, vo, track_x + track_w + 8, ry, value_w, bar_h)
+            self._text(vo, str(d.get("display", d.get("value", ""))))
+            self._style(vo, 9, bold=True, color=self.c["fg"], align="END",
+                        font_family=self._num_font(d.get("display", d.get("value", ""))))
+
+    def progress(self, x, y, w, pct, label="", tone="accent", bar_h=8):
+        """진행률 바 1개 — 라벨 + % + 트랙/필. 달성률·진척도 표기 전용.
+
+        pct: 0~100 숫자. 표기는 자동으로 '{pct}%'.
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("progress(): start_slide()를 먼저 호출하세요.")
+        tone_fg, _ = self._tone(tone)
+        if label:
+            lo = _uid()
+            self._shape(sid, lo, x, y, w - 64, 12)
+            self._text(lo, str(label))
+            self._style(lo, 9, color=self.c["dim"])
+        po = _uid()
+        self._shape(sid, po, x + w - 60, y, 60, 12)
+        pct_num = float(pct)
+        pct_text = f"{pct_num:g}%"
+        self._text(po, pct_text)
+        self._style(po, 9, bold=True, color=tone_fg, align="END",
+                    font_family="Proxima Nova")
+        by = y + 16
+        self._rect(sid, x, by, w, bar_h,
+                   self.c["surface_hi"], self.c["border"], 0.4)
+        fill_w = w * max(0.0, min(1.0, pct_num / 100.0))
+        if fill_w >= 1:
+            self._rect(sid, x, by, fill_w, bar_h, tone_fg, tone_fg, 0)
+
+    def timeline(self, y, milestones, x=48, w=624):
+        """가로 타임라인 — 일정/마일스톤. 상태별 시맨틱 컬러 자동.
+
+        milestones: [{"label": "디자인 확정", "date": "06.15",
+                      "state": "done" | "current" | "next"}, ...]  (3~6개 권장)
+        done=green, current=orange(강조 1개), next=중립.
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("timeline(): start_slide()를 먼저 호출하세요.")
+        n = max(len(milestones), 1)
+        line_y = y + 30
+        self._hline(sid, x + 12, line_y, w - 24, weight=1,
+                    color=self.c["border_hi"])
+        seg = w / n
+        state_color = {
+            "done": self.c["good"],
+            "current": self.c["accent"],
+            "next": self.c["border_hi"],
+        }
+        for i, m in enumerate(milestones):
+            cx = x + seg * i + seg / 2
+            state = m.get("state", "next")
+            color = state_color.get(state, self.c["border_hi"])
+            d = 10 if state == "current" else 8
+            self._ellipse(sid, cx - d / 2, line_y - d / 2, d, d,
+                          color, self.c["bg"], 1)
+            if m.get("date"):
+                do = _uid()
+                self._shape(sid, do, cx - seg / 2, y, seg, 12)
+                self._text(do, str(m["date"]))
+                self._style(do, 8, color=self.c["dim"], align="CENTER",
+                            font_family="Proxima Nova")
+            lo = _uid()
+            self._shape(sid, lo, cx - seg / 2, line_y + 12, seg, 16)
+            self._text(lo, str(m.get("label", "")))
+            is_current = state == "current"
+            self._style(lo, 9.5, bold=is_current,
+                        color=self.c["fg"] if state in ("done", "current") else self.c["dim"],
+                        align="CENTER")
+            if m.get("desc"):
+                so = _uid()
+                self._shape(sid, so, cx - seg / 2, line_y + 30, seg, 24)
+                self._text(so, str(m["desc"]))
+                self._style(so, 8, color=self.c["dim"], align="CENTER")
+
+    def badge(self, x, y, text, tone="neutral", w=None, h=16):
+        """상태 배지 — 시맨틱 틴트 배경 + 컬러 텍스트.
+
+        용도: DONE/진행중/HOLD/RISK 같은 짧은 상태 라벨.
+        tone: 'good'(완료/정상) / 'warn'(대기/보정) / 'bad'(위험/중단) /
+              'accent'(핵심) / 'neutral'(기본)
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("badge(): start_slide()를 먼저 호출하세요.")
+        tone_fg, tone_bg = self._tone(tone)
+        text = str(text)
+        if w is None:
+            est = sum(9.0 if ord(ch) > 0x2E80 else 5.0 for ch in text)
+            w = max(36, est + 18)
+        oid = _uid()
+        self.reqs.append({
+            "createShape": {
+                "objectId": oid,
+                "shapeType": "ROUND_RECTANGLE",
+                "elementProperties": {
+                    "pageObjectId": sid,
+                    "size": _size(w, h),
+                    "transform": _transform(x, y),
+                },
+            }
+        })
+        self.reqs.append({
+            "updateShapeProperties": {
+                "objectId": oid,
+                "shapeProperties": {
+                    "shapeBackgroundFill": {"solidFill": {"color": _rgb(tone_bg)}},
+                    "outline": {
+                        "outlineFill": {"solidFill": {"color": _rgb(tone_fg)}},
+                        "weight": _pt(0.5),
+                    },
+                    "contentAlignment": "MIDDLE",
+                },
+                "fields": "shapeBackgroundFill,outline,contentAlignment",
+            }
+        })
+        self._text(oid, text)
+        self._style(oid, 7.5, bold=True, color=tone_fg, align="CENTER")
+        return w
+
+    def image(self, url, x, y, w, h):
+        """이미지 삽입 — 공개 접근 가능한 URL 필수 (Drive 공유 링크는 직접 불가).
+
+        스크린샷·제품 컷·도식 PNG 등 실물 증빙에 사용.
+        """
+        sid = getattr(self, "_current_slide", None)
+        if sid is None:
+            raise RuntimeError("image(): start_slide()를 먼저 호출하세요.")
+        self.reqs.append({
+            "createImage": {
+                "objectId": _uid(),
+                "url": url,
+                "elementProperties": {
+                    "pageObjectId": sid,
+                    "size": _size(w, h),
+                    "transform": _transform(x, y),
+                },
+            }
+        })
+
+    def full_image(self, url, heading="", eyebrow="", caption=""):
+        """이미지 중심 슬라이드 — 헤더(선택) + 콘텐츠 영역 가득 이미지.
+
+        heading 없으면 풀블리드(720×405), 있으면 콘텐츠 영역(y=100~373)에 배치.
+        caption: 이미지 아래 작은 출처/설명 (헤더 있는 경우만).
+        """
+        if heading or eyebrow:
+            self.start_slide(heading=heading, eyebrow=eyebrow)
+            img_h = 273 - (14 if caption else 0)
+            self.image(url, 48, 100, 624, img_h)
+            if caption:
+                co = _uid()
+                self._shape(self._current_slide, co, 48, 100 + img_h + 2, 624, 12)
+                self._text(co, caption)
+                self._style(co, 7.5, color=self.c["dim"])
+        else:
+            oid, idx = self._next()
+            self._slide(oid, idx)
+            self._bg(oid)
+            self._current_slide = oid
+            self.reqs.append({
+                "createImage": {
+                    "objectId": _uid(),
+                    "url": url,
+                    "elementProperties": {
+                        "pageObjectId": oid,
+                        "size": _size(720, 405),
+                        "transform": _transform(0, 0),
+                    },
+                }
+            })
+        return self._current_slide
+
     # ── API 플러시 ────────────────────────────────────────────────
 
     def _validate(self):
@@ -1519,7 +1852,8 @@ class SpigenBuilder:
         """
         warnings = []
         for r in self.reqs:
-            create = r.get("createShape") or r.get("createLine")
+            create = (r.get("createShape") or r.get("createLine")
+                      or r.get("createImage"))
             if not create:
                 continue
             ep = create.get("elementProperties", {})

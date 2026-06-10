@@ -6,7 +6,7 @@ Google Slides 자동 생성을 위한 Claude Code 스킬 (Spigen 디자인 시�
 
 ## 구성
 
-- **spigen-slides** — 메인 제작 스킬 (Google Slides 자동 빌드)
+- **spigen-slides** — 메인 제작 스킬 (Google Slides 자동 빌드 + HTML 시안 렌더러)
 - **spigen-slides-review** — 검수 스킬 (페르소나 검수, 자동 검증 — 사용자가 명시적으로 요청할 때만 실행)
 - **craft-design-rules.md** — 범용 디자인 craft 규칙 (Anti-AI-Slop / 자간 / 색상 규율 / 80/20 소울 원칙) — 다른 디자인 스킬에서도 참조 가능
 
@@ -67,8 +67,31 @@ b.flush()
 | 순서 안내 | `numbered_steps()` | 01-NN 숫자 라벨 |
 | 강조 메시지 | `callout()` | 한 슬라이드 한 문장 |
 | 결론 | `conclusion()` | 큰 메트릭 + 캡션 + 디테일 4개 |
+| 핵심 수치 (V3) | `stat_row()` | 큰 숫자 메트릭 2~4개 + delta |
+| 수치 비교 (V3) | `bars()` | 가로 바 차트, primary 1개만 오렌지 |
+| 진행률 (V3) | `progress()` | 라벨 + % + 트랙/필 바 |
+| 일정 (V3) | `timeline()` | 마일스톤 dot + 시맨틱 상태색 |
+| 상태 칩 (V3) | `badge()` | good/warn/bad 틴트 배지 |
+| 이미지 (V3) | `image()` / `full_image()` | 스크린샷·제품 컷 증빙 |
 
 자세한 가이드는 `spigen-slides/SKILL.md` 참조.
+
+## HTML 시안 미리보기 (V3)
+
+빌드 전 시각 승인용 — `gws`/Google 인증 없이 로컬에서 즉시 확인:
+
+```python
+from spigen_html import HtmlDeck
+
+d = HtmlDeck("발표 제목", theme="dark")   # SpigenBuilder와 동일 API
+d.cover(title="제목")
+d.start_slide(heading="현황", eyebrow="STATUS")
+d.stat_row(120, [{"value": "96.4%", "label": "달성률", "delta": "+4.2%p"}])
+d.flush()   # /tmp/spigen_preview_*.html
+```
+
+시안 승인 후 `HtmlDeck` → `SpigenBuilder`로 클래스만 바꾸면 같은 코드가 그대로 빌드된다.
+데모: `python3 spigen-slides/examples/demo_v3_preview.py dark`
 
 ## 디자인 시스템
 
@@ -91,6 +114,19 @@ b.flush()
 → `spigen-slides-review` 스킬이 페르소나 검수 + 자동 검증 실행.
 
 ## 변경 이력
+
+### v3.0 (2026-06-10)
+- **V3 리치 블록 추가** — `stat()` / `stat_row()` 큰 숫자 메트릭, `bars()` 가로 바 차트,
+  `progress()` 진행률 바, `timeline()` 마일스톤 타임라인, `badge()` 시맨틱 상태 칩,
+  `image()` / `full_image()` 이미지 삽입. 모두 native 요소라 생성 후 Slides에서 편집 가능
+- **HTML 시안 렌더러 신설** (`spigen_html.py`) — `SpigenBuilder`와 동일 API의 `HtmlDeck`.
+  빌드 전 시각 승인용 미리보기 (Step 2.5), 인증 불필요, 승인 후 같은 코드로 빌드.
+  HTML 전용 craft 보정(ALL CAPS 자간 0.08em, 대형 헤딩 -0.01em) 자동 적용
+- **시맨틱 컬러 토큰 보강** — SKILL 규정에만 있고 코드에 없던 `warn`(YELLOW 계열) 추가,
+  badge/하이라이트용 틴트 배경(`good_bg`/`warn_bg`/`bad_bg`) dark·light 양 테마 내장
+- 컴포넌트 결정 테이블에 리치 블록 6종 추가 — 수치·일정·상태는 텍스트 줄글보다 시각화 우선
+- `_validate`가 `createImage`도 검사 (캔버스 초과/콘텐츠 영역 침범)
+- 데모: `spigen-slides/examples/demo_v3_preview.py`
 
 ### v2.0 (2026-06-10)
 - 메인 제작 스킬 phase를 `v7.0.0-v2`로 업데이트
