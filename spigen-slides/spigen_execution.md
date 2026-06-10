@@ -27,14 +27,14 @@ v6 기본 방향:
 ## 빌드 스크립트 템플릿
 
 ```python
-import sys, shutil
+import os, sys, shutil
 
-# 빌더 복사
-shutil.copy2("/Users/harugury/.agents/skills/spigen-slides/spigen_build.py",
-             "/tmp/spigen_build.py")
+# 빌더 복사 (에이전트 스킬 경로 — spigen_build 는 tokens/lib 를 import 하므로 의존 파일까지 함께 복사)
+SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
+for f in ["spigen_build.py", "spigen_lib.py", "spigen_tokens.py",
+          "spigen_models.py", "spigen_layout.py"]:
+    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
 sys.path.insert(0, "/tmp")
-from spigen_build import SpigenBuilder
-
 from spigen_build import SpigenBuilder, load_pid, save_pid
 
 BUILD_NAME = "my_deck"
@@ -164,10 +164,12 @@ else:
 KPI / 목표 / 실적 내용이 있을 때는 `SpigenBuilder(title, template="kpi")`로 생성한다.
 
 ```python
-import sys, shutil
+import os, sys, shutil
 
-shutil.copy2("/Users/harugury/.agents/skills/spigen-slides/spigen_build.py",
-             "/tmp/spigen_build.py")
+SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
+for f in ["spigen_build.py", "spigen_lib.py", "spigen_tokens.py",
+          "spigen_models.py", "spigen_layout.py"]:
+    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
 sys.path.insert(0, "/tmp")
 from spigen_build import SpigenBuilder
 

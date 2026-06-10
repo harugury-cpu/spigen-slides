@@ -479,12 +479,13 @@ python3 ~/.agents/skills/spigen-slides/spigen_preflight.py /tmp/spigen_plan_<BUI
 ### 기본 빌드 패턴
 
 ```python
-import sys, shutil
+import os, sys, shutil
 
-# 필수 파일 복사
+# 필수 파일 복사 (에이전트 스킬 경로 — ~/.agents 와 ~/.claude 가 심링크된 환경 모두 동작)
+SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
 for f in ["spigen_build.py", "spigen_html.py", "spigen_lib.py",
           "spigen_models.py", "spigen_layout.py", "spigen_tokens.py"]:
-    shutil.copy2(f"/Users/user/.agents/skills/spigen-slides/{f}", f"/tmp/{f}")
+    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
 sys.path.insert(0, "/tmp")
 
 from spigen_build import SpigenBuilder, load_pid, save_pid
