@@ -166,7 +166,7 @@ def render_slide_spec(slide_spec, insert_index, reqs, total=None):
             department=props.get("department", "디자인부문ㅣ패키지디자인팀"),
             owner=props.get("owner", "한원진 담당"),
             date_text=props.get("date_text", ""),
-            version=props.get("version", "V1.0"),
+            version=props.get("version", "V2.0"),
         )
 
     if first.type == "section-divider":
@@ -776,7 +776,7 @@ def _new_slide(sid, insert_index, reqs, layout_id=None):
 
 def mk_cover(slide_oid, title, insert_index, reqs, subtitle="",
              department="디자인부문ㅣ패키지디자인팀", owner="한원진 담당",
-             date_text="", version="V1.0"):
+             date_text="", version="V2.0"):
     """
     Theme-aware standard cover helper.
 
