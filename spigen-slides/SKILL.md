@@ -25,6 +25,8 @@ metadata:
 - **표지와 KPI는 V2 디자인 변경 대상이 아니다.** 본문 디자인을 바꿔도 cover / KPI status / KPI tasks 복사·매핑 로직은 기존 그대로 유지한다.
 - **라이트/다크 표지는 서로 다르다.** light는 라이트 템플릿 cover, dark는 다크 가이드 템플릿 cover를 각각 복사한다. 한쪽 표지를 다른 테마에 재사용하지 않는다.
 - **V2 본문 룩은 상세 디자인 가이드 기준.** AI 템플릿처럼 보이는 과한 rounded card, pill 남발, box-in-box, 이모지, 그라디언트, 3D, 장식형 그림자를 피한다.
+- **V2 내지 컬러는 V4 샘플 룩을 기준으로 한다.** 검정 배경 + 매우 어두운 surface + neutral line + semantic green/yellow + 절제된 orange 조합을 사용한다.
+- **오렌지 통일 금지.** Spigen orange는 브랜드 accent이자 1순위 강조색이다. 완료/정상/PASS는 green, 보정/대기/NEXT는 yellow·amber, 위험/BLOCK은 red, 구조·구분은 gray/line으로 분리한다.
 - **카드 R값은 작게.** 기본은 crisp rectangle이며, 라운드가 필요해도 4pt 수준만 허용한다.
 - **해상도/좌표계 변경은 템플릿 보존과 함께만 한다.** 현재 Google Slides 공식 템플릿을 복사하는 경로에서는 기존 템플릿 pageSize를 존중한다. 1920×1080 등 true high-resolution 경로를 도입할 때도 light/dark cover와 KPI 템플릿 복사 동작을 먼저 보존해야 한다.
 - **80/20 소울 원칙**: 80%는 토큰·컴포넌트 규칙 준수, 20%는 이 덱만의 차별점 1가지. 이 덱 스크린샷을 Spigen 팀원이 보면 어떤 프로젝트인지 알 수 있어야 완성이다. 차별점 후보: 핵심 수치를 `callout()`으로 배치, 내용 구조에 맞는 비대칭 레이아웃, 원본 데이터를 직접 담은 수치 강조.
@@ -38,6 +40,8 @@ metadata:
 - 오렌지: `#FF6B1A`
 - dark 배경: `#000000` / 텍스트: `#FFFFFF` (다크 표지와 통일)
 - light 배경: `#FFFFFF` / 텍스트: `#1C1C1E`
+- V2 dark 내지 팔레트: `BG #000000`, `SURFACE #0E0E0E`, `SURFACE_HI #181818`, `LINE #323232`, `TEXT #F5F5F5`, `DIM #ACACAC`, `FAINT #696969`
+- V2 semantic color: `ORANGE #FF6B1A` = 핵심 강조, `GREEN #34A853` = 완료/정상/PASS, `YELLOW #F5B041` = 대기/보정/NEXT
 - 빌더: `~/.agents/skills/spigen-slides/spigen_build.py`
 
 ---
@@ -515,9 +519,12 @@ python3 /tmp/build_<name>.py
 - ❌ 배경(BG)과 동일한 fill / 선 / 테두리 (검정 위 검정 박스 등)
 - ❌ 검정 배경 위 `ACCENT_DIM` 텍스트
 - ❌ 검정 배경 위 어두운 오렌지·갈색 톤 텍스트
+- ❌ 모든 강조·상태·테두리·숫자를 오렌지로 통일
 - ❌ 긴 본문이나 보조 설명을 오렌지 계열 색으로 표기 — 오렌지는 강조 전용
 - ❌ `ACCENT_DIM`을 텍스트 색으로 사용 (배경 fill 전용)
 - ❌ **슬라이드당 오렌지(accent) 가시적 사용 2회 초과 (V6.3.3: eyebrow 제외)** — eyebrow는 헤더 메타로 항상 ORANGE 고정이므로 카운트에서 제외한다. 카운트 대상은 본문 영역의 오렌지 사용: 오렌지 구분선 / 오렌지 카드 테두리(normal/dim) / 풀 오렌지 카드(`emphasis="full"`) / 오렌지 텍스트 강조. 본문 영역 기준 슬라이드당 2회 이내, 3회 이상이면 우선순위가 낮은 것부터 제거한다.
+- ✅ 기본 카드 border는 neutral line(`#323232`)을 사용하고, 핵심 카드 1개만 orange border 또는 orange fill로 승격한다.
+- ✅ 상태값은 의미 색상을 쓴다: `DONE/PASS` = green, `NEXT/WAIT/보정` = yellow·amber, `RISK/BLOCK/FAIL` = red, 단순 구조/분리 = gray.
 
 ### 2. 강조 카드 사용 제한
 - ❌ 한 슬라이드에 풀 ORANGE 강조 카드 (`emphasis="full"`) **2개 이상**

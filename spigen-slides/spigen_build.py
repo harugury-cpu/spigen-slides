@@ -128,22 +128,22 @@ COLORS = {
     "dark": {
         # 기본
         "bg":            {"red": 0, "green": 0, "blue": 0},               # #000000 (V6.3: 표지와 통일)
-        "fg":            {"red": 0.894, "green": 0.894, "blue": 0.894},   # 88% 흰 합성 (#E4E4E4)
-        "dim":           {"red": 0.769, "green": 0.769, "blue": 0.769},   # 74% (#C4C4C4)
-        "fg_faint":      {"red": 0.604, "green": 0.604, "blue": 0.604},   # 56% (#9A9A9A)
+        "fg":            {"red": 0.961, "green": 0.961, "blue": 0.961},   # #F5F5F5
+        "dim":           {"red": 0.675, "green": 0.675, "blue": 0.675},   # #ACACAC
+        "fg_faint":      {"red": 0.412, "green": 0.412, "blue": 0.412},   # #696969
         # 강조
         "accent":        {"red": 1.000, "green": 0.420, "blue": 0.102},   # #FF6B1A
         "accent_bg":     {"red": 0.227, "green": 0.145, "blue": 0.102},   # 14% accent on bg (#3A2519)
         "accent_line":   {"red": 0.596, "green": 0.278, "blue": 0.102},   # 55% (#984712)
         "accent_soft":   {"red": 0.137, "green": 0.114, "blue": 0.102},   # 4% (#231D1A)
         # 표면·라인
-        "surface":       {"red": 0.149, "green": 0.149, "blue": 0.149},   # #262626 (★ 24% 밝아짐)
-        "surface_hi":    {"red": 0.188, "green": 0.188, "blue": 0.188},   # #303030
-        "surface_2":     {"red": 0.165, "green": 0.165, "blue": 0.165},   # #2A2A2A
-        "border":        {"red": 0.208, "green": 0.208, "blue": 0.208},   # 12% 합성 (#353535)
+        "surface":       {"red": 0.055, "green": 0.055, "blue": 0.055},   # #0E0E0E (V4 내지 기준)
+        "surface_hi":    {"red": 0.094, "green": 0.094, "blue": 0.094},   # #181818
+        "surface_2":     {"red": 0.094, "green": 0.094, "blue": 0.094},   # #181818
+        "border":        {"red": 0.196, "green": 0.196, "blue": 0.196},   # #323232
         "border_hi":     {"red": 0.282, "green": 0.282, "blue": 0.282},   # 20% 합성 (#484848)
         # 시맨틱
-        "good":          {"red": 0.612, "green": 0.890, "blue": 0.490},   # #9CE37D
+        "good":          {"red": 0.204, "green": 0.659, "blue": 0.325},   # #34A853
         "bad":           {"red": 1.000, "green": 0.478, "blue": 0.478},   # #FF7A7A
     },
     "light": {
