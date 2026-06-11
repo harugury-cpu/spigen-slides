@@ -31,7 +31,6 @@ metadata:
 - **해상도/좌표계 변경은 템플릿 보존과 함께만 한다.** 현재 Google Slides 공식 템플릿을 복사하는 경로에서는 기존 템플릿 pageSize를 존중한다. 1920×1080 등 true high-resolution 경로를 도입할 때도 light/dark cover와 KPI 템플릿 복사 동작을 먼저 보존해야 한다.
 - **80/20 소울 원칙**: 80%는 토큰·컴포넌트 규칙 준수, 20%는 이 덱만의 차별점 1가지. 이 덱 스크린샷을 Spigen 팀원이 보면 어떤 프로젝트인지 알 수 있어야 완성이다. 차별점 후보: 핵심 수치를 `stat_row()`/`callout()`으로 배치, 내용 구조에 맞는 비대칭 레이아웃, 원본 데이터를 직접 담은 수치 강조.
 - **수치는 텍스트에 묻지 않는다 (V3).** 원본에 수치·달성률·일정·상태가 있으면 9pt 본문 줄글로 풀지 말고 리치 블록(`stat_row` / `bars` / `progress` / `timeline` / `badge`)으로 시각화한다. "수치 먼저" 원칙의 시각 구현이다.
-- **빌드 전 HTML 시안 (V3).** Step 2 구성 승인 시 텍스트 목록 대신 `spigen_html.HtmlDeck`으로 실제 레이아웃 시안을 만들어 보여줄 수 있다. 빌더와 동일 API라 승인 후 같은 호출 코드를 `SpigenBuilder`로 바꾸면 그대로 빌드된다.
 
 ---
 
@@ -46,19 +45,17 @@ metadata:
 - V2 semantic color: `ORANGE #FF6B1A` = 핵심 강조, `GREEN #34A853` = 완료/정상/PASS, `YELLOW #F5B041` = 대기/보정/NEXT, `RED #FF7A7A` = 위험/BLOCK
 - V3 tone 시스템: 리치 블록의 `tone` 인자 = `accent` / `good` / `warn` / `bad` / `neutral` — 코드 토큰(`COLORS`)에 시맨틱 전경색 + 틴트 배경색 쌍으로 내장 (light 테마는 대비 보정값 자동 적용)
 - 빌더: `~/.agents/skills/spigen-slides/spigen_build.py`
-- HTML 시안: `~/.agents/skills/spigen-slides/spigen_html.py`
 
 ---
 
 ## 진행 흐름
 
 ```
-Step 1.   내용 수집
-Step 2.   슬라이드 구성 제안 → 사용자 승인
-Step 2.5. HTML 시안 미리보기 (권장) → 시각 승인
-Step 3.   Preflight Gate 통과
-Step 4.   생성 + 링크 공유
-Step 5.   검증 실행 여부 질문
+Step 1. 내용 수집
+Step 2. 슬라이드 구성 제안 → 사용자 승인
+Step 3. Preflight Gate 통과
+Step 4. 생성 + 링크 공유
+Step 5. 검증 실행 여부 질문
 ```
 
 ---
@@ -384,42 +381,6 @@ lib.mk_decision_tree(oid, nodes={
 
 ---
 
-## Step 2.5. HTML 시안 미리보기 (권장)
-
-텍스트 구성안만으로는 사용자가 결과를 상상해야 한다. 슬라이드가 5장 이상이거나
-리치 블록·자유 레이아웃이 들어가는 덱은 **빌드 전에 HTML 시안을 만들어 보여준다.**
-
-```python
-import os, sys, shutil
-SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
-for f in ["spigen_build.py", "spigen_html.py", "spigen_lib.py", "spigen_tokens.py"]:
-    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
-sys.path.insert(0, "/tmp")
-from spigen_html import HtmlDeck
-
-d = HtmlDeck("(PPT 제목)", theme="dark")
-d.cover(title="(제목)")
-d.start_slide(heading="...", eyebrow="...")
-d.stat_row(120, [...])          # SpigenBuilder와 시그니처 동일
-path = d.flush()                 # /tmp/spigen_preview_*.html
-```
-
-규칙:
-- `HtmlDeck`은 `SpigenBuilder`와 메서드 시그니처가 동일하다. **시안 승인 후
-  `HtmlDeck` → `SpigenBuilder`로 클래스만 바꾸면 같은 코드가 그대로 빌드된다.**
-- 생성된 HTML 파일을 사용자에게 전달하고 시각 피드백을 받는다. 디자인 수정은
-  시안 단계에서 반복하고, Google Slides 빌드는 확정 후 1회만 한다.
-- 표지는 근사 미리보기다 — 실제 빌드는 지정 템플릿 cover를 복사한다고 명시한다.
-- HTML 시안은 네트워크/인증이 필요 없다 (`gws` 불필요). 시안 자체가 craft 보정
-  (ALL CAPS 자간 0.08em, 대형 헤딩 자간 -0.01em)을 포함하므로 디자인 검토 기준으로 쓴다.
-- (선택) headless Chrome이 있는 환경에서는 시안을 PNG로 캡처해
-  `b.full_image()`로 삽입하는 "리치 이미지 모드"도 가능하다. 단, 텍스트 편집이
-  불가능해지므로 사용자가 명시 요청한 경우에만 쓴다.
-
-빠른 보고(3장 이하, 기본 컴포넌트만)는 Step 2.5를 생략하고 바로 빌드해도 된다.
-
----
-
 ## Step 3. Preflight Gate
 
 생성 스크립트를 작성하기 전에 반드시 `/tmp/spigen_plan_<BUILD_NAME>.json`을 만들고
@@ -483,7 +444,7 @@ import os, sys, shutil
 
 # 필수 파일 복사 (에이전트 스킬 경로 — ~/.agents 와 ~/.claude 가 심링크된 환경 모두 동작)
 SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
-for f in ["spigen_build.py", "spigen_html.py", "spigen_lib.py",
+for f in ["spigen_build.py", "spigen_lib.py",
           "spigen_models.py", "spigen_layout.py", "spigen_tokens.py"]:
     shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
 sys.path.insert(0, "/tmp")
@@ -708,8 +669,7 @@ python3 /tmp/build_<name>.py
 | 파일 | 용도 |
 |------|------|
 | `spigen_build.py` | 슬라이드 빌더 (cover / slide / two_col / start_slide / 빌딩 블록 / V3 리치 블록 / 자동 강제 룰) |
-| `spigen_html.py` | HTML 시안 렌더러 — 빌더와 동일 API, 빌드 전 시각 승인 + (선택) PNG 캡처 소스 |
-| `examples/demo_v3_preview.py` | V3 리치 블록 데모 — `python3 examples/demo_v3_preview.py [dark|light]` |
+| `examples/demo_v3_build.py` | V3 리치 블록 실물 빌드 데모 — `python3 examples/demo_v3_build.py [dark|light]` |
 | `spigen_lib.py` | mk_* 컴포넌트 라이브러리 + THEME_TOKENS |
 | `spigen_tokens.py` | 디자인 토큰 (HEADER / SHEET_GEOM / SPACING / TYPO / FONT_HIERARCHY / EMPHASIS) |
 | `spigen_pid_guard.py` | 수정 모드 PID 안전성 확인 (expect-stable / assert-stable) |

@@ -1,7 +1,6 @@
 """V3 리치 블록 — 실제 Google Slides 빌드 데모.
 
-examples/demo_v3_preview.py 와 호출 코드가 100% 동일하다.
-차이는 HtmlDeck → SpigenBuilder 뿐 — 같은 코드가 진짜 Slides로 빌드된다.
+stat_row / bars / timeline / progress / badge / 강조 카드를 한 덱에서 시연한다.
 
 실행 (gws + Google 인증이 있는 본인 머신에서):
     python3 examples/demo_v3_build.py            # dark
