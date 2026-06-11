@@ -1048,15 +1048,19 @@ class SpigenBuilder:
                 },
             }
         })
+        if weight <= 0:
+            outline = {"propertyState": "NOT_RENDERED"}
+        else:
+            outline = {
+                "outlineFill": {"solidFill": {"color": _rgb(border)}},
+                "weight": _pt(weight),
+            }
         self.reqs.append({
             "updateShapeProperties": {
                 "objectId": oid,
                 "shapeProperties": {
                     "shapeBackgroundFill": {"solidFill": {"color": _rgb(fill)}},
-                    "outline": {
-                        "outlineFill": {"solidFill": {"color": _rgb(border)}},
-                        "weight": _pt(weight),
-                    },
+                    "outline": outline,
                 },
                 "fields": "shapeBackgroundFill,outline",
             }
