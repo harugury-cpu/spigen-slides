@@ -5,46 +5,18 @@ license: MIT
 metadata:
   category: productivity
   locale: ko-KR
-  phase: v7.1.0-v3
+  phase: v8.0.0-open
 ---
 
-# spigen-slides
+# spigen-slides (V8 — 디자인 자유 / 출력만 고정)
 
-> 컬러 토큰 출처: `~/Downloads/Spigen Dark|Light Design System/colors_and_type.css`
-> 빌더가 디자인 룰을 자동 강제. 페르소나 검수는 별도 `spigen-slides-review` 스킬에서 사용자가 요청할 때 실행한다.
+## 이 스킬의 철학
 
-## 핵심 원칙
+이 스킬은 **디자인을 가르치지 않는다.** 어떤 레이아웃을 쓰라거나, 어떤 컴포넌트로 무엇을 표현하라는 규칙이 없다 — 그런 가이드가 매번 같은 화면(답습)을 만들어 냈기 때문이다.
 
-- **AI는 내용을 창작하지 않는다.** 사용자가 준 내용을 정리할 뿐이다.
-- **내용이 먼저다.** 컴포넌트가 내용을 강요하면 안 된다.
-- **자유도가 먼저다.** 형식 때문에 내용이 잘리면 형식을 버리고 내용을 살린다.
-- 디자인 시스템은 **안전장치**다. 폰트/간격/겹침/강조 남발만 막고 내용 표현은 최대한 열어둔다.
-- 기본 생성 모드는 **운영용 = 디테일용 = 보고서형** 하나다.
-- 각 슬라이드는 **한 페이지 자기완결 설명**을 우선한다. 발표용 희소 카피보다 읽고 바로 실행 가능한 설명을 우선한다.
-- **표지는 직접 그리지 않는다.** light / dark 모두 지정 템플릿 cover를 복사하고 텍스트만 교체한다.
-- **표지와 KPI는 V2 디자인 변경 대상이 아니다.** 본문 디자인을 바꿔도 cover / KPI status / KPI tasks 복사·매핑 로직은 기존 그대로 유지한다.
-- **라이트/다크 표지는 서로 다르다.** light는 라이트 템플릿 cover, dark는 다크 가이드 템플릿 cover를 각각 복사한다. 한쪽 표지를 다른 테마에 재사용하지 않는다.
-- **V2 본문 룩은 상세 디자인 가이드 기준.** AI 템플릿처럼 보이는 과한 rounded card, pill 남발, box-in-box, 이모지, 그라디언트, 3D, 장식형 그림자를 피한다.
-- **V2 내지 컬러는 V4 샘플 룩을 기준으로 한다.** 검정 배경 + 매우 어두운 surface + neutral line + semantic green/yellow + 절제된 orange 조합을 사용한다.
-- **오렌지 통일 금지.** Spigen orange는 브랜드 accent이자 1순위 강조색이다. 완료/정상/PASS는 green, 보정/대기/NEXT는 yellow·amber, 위험/BLOCK은 red, 구조·구분은 gray/line으로 분리한다.
-- **카드 R값은 작게.** 기본은 crisp rectangle이며, 라운드가 필요해도 4pt 수준만 허용한다.
-- **해상도/좌표계 변경은 템플릿 보존과 함께만 한다.** 현재 Google Slides 공식 템플릿을 복사하는 경로에서는 기존 템플릿 pageSize를 존중한다. 1920×1080 등 true high-resolution 경로를 도입할 때도 light/dark cover와 KPI 템플릿 복사 동작을 먼저 보존해야 한다.
-- **80/20 소울 원칙**: 80%는 토큰·컴포넌트 규칙 준수, 20%는 이 덱만의 차별점 1가지. 이 덱 스크린샷을 Spigen 팀원이 보면 어떤 프로젝트인지 알 수 있어야 완성이다. 차별점 후보: 핵심 수치를 `stat_row()`/`callout()`으로 배치, 내용 구조에 맞는 비대칭 레이아웃, 원본 데이터를 직접 담은 수치 강조.
-- **수치는 텍스트에 묻지 않는다 (V3).** 원본에 수치·달성률·일정·상태가 있으면 9pt 본문 줄글로 풀지 말고 리치 블록(`stat_row` / `bars` / `progress` / `timeline` / `badge`)으로 시각화한다. "수치 먼저" 원칙의 시각 구현이다.
+대신 **내용에서 매번 새로 화면을 구성한다.** 자료마다 시각이 다른 것이 정상이다. 내용이 빽빽하면 한 페이지에 밀도 높게, 내용이 비면 이미지 자리로, 표가 맞으면 표로 — **통일성을 추구하지 않는다.** 슬라이드를 가로지르는 시각적 일관성 강제는 없다. 유일한 메타 규칙은 "이전 덱·이전 슬라이드의 레이아웃을 그대로 가져오지 말고, 이 내용에 맞는 화면을 새로 그린다"이다.
 
----
-
-## 고정값
-
-- 담당자: `한원진 담당`
-- 부서: `디자인부문ㅣ패키지디자인팀`
-- 오렌지: `#FF6B1A`
-- dark 배경: `#000000` / 텍스트: `#FFFFFF` (다크 표지와 통일)
-- light 배경: `#FFFFFF` / 텍스트: `#1C1C1E`
-- V2 dark 내지 팔레트: `BG #000000`, `SURFACE #0E0E0E`, `SURFACE_HI #181818`, `LINE #323232`, `TEXT #F5F5F5`, `DIM #ACACAC`, `FAINT #696969`
-- V2 semantic color: `ORANGE #FF6B1A` = 핵심 강조, `GREEN #34A853` = 완료/정상/PASS, `YELLOW #F5B041` = 대기/보정/NEXT, `RED #FF7A7A` = 위험/BLOCK
-- V3 tone 시스템: 리치 블록의 `tone` 인자 = `accent` / `good` / `warn` / `bad` / `neutral` — 코드 토큰(`COLORS`)에 시맨틱 전경색 + 틴트 배경색 쌍으로 내장 (light 테마는 대비 보정값 자동 적용)
-- 빌더: `~/.agents/skills/spigen-slides/spigen_build.py`
+고정하는 것은 디자인이 아니라 **출력**이다: ① 표지 ② 브랜드(폰트·컬러) ③ 어조 ④ 내용 충실도(주장) ⑤ 깨짐 없는 출력. 그 안에서 화면 설계는 전적으로 자유다.
 
 ---
 
@@ -52,615 +24,154 @@ metadata:
 
 ```
 Step 1. 내용 수집
-Step 2. 슬라이드 구성 제안 → 사용자 승인
-Step 3. Preflight Gate 통과
-Step 4. 생성 + 링크 공유
-Step 5. 검증 실행 여부 질문
+Step 2. 슬라이드별 브리프 작성 → 사용자 승인   ← 내용 충실도의 원천
+Step 3. 빌드 (저수준 그리기 API로 자유 배치)
+Step 4. 썸네일 채점 (깨짐만 점검, 최대 1회 수정) → 링크 전달
 ```
 
 ---
 
-## Step 1. 내용 수집
+## Step 2. 슬라이드별 브리프 (★ 주장 게이트)
 
-### 경로 A — 원본 데이터 있음
-
-문서, 노트, 보드 데이터, 채팅 기록 등 원본이 있으면:
-1. 원본을 읽는다
-2. 핵심 내용만 추출한다
-3. 추출 결과를 사용자에게 확인받는다
-
-원칙: 원본에 없는 내용을 추가하지 않는다. 수치·고유명사는 원본 그대로 사용한다.
-
-### 경로 B — 직접 제공
-
-아래 4가지만 묻는다:
+빌드 전 슬라이드마다 **주장 한 문장**을 쓴다. 이것이 내용 충실도의 핵심이며, 이 게이트가 없으면 AI가 의도를 모른 채 화면만 채운다.
 
 ```
-Q1. 이 PPT의 목적은?
-    보고 / 교육·안내 / 제안 / 홍보 중 선택 또는 직접 설명
-
-Q2. 청중은 누구인가요?
-    (예: 경영진, 팀 내부, 외부 고객)
-
-Q3. 전달할 핵심 내용을 적어주세요.
-    형식 무관 — 글머리, 메모, 키워드 나열 모두 가능
-
-Q4. 테마: dark / light 중 선택 (기본 dark)
-    "다크" "라이트" "어두운" "밝은" 같은 한국어 표현도 인식. 사용자가 언급 없이
-    PPT 만들기를 요청한 경우 이 질문을 명시적으로 묻고 답을 받은 뒤 진행한다.
-```
-
-테마는 Q4로 사용자에게 **반드시 묻고 답을 받은 뒤 진행한다.**
-인터랙티브 도구가 막힌 환경(텔레그램·non-interactive 등)에서도 **plain text로 묻는다.**
-사용자가 답하지 않은 경우에만 fallback으로 dark를 사용한다.
-
-### 기본 생성 모드
-
-사용자가 따로 요약형/발표형을 요구하지 않으면 아래 **단일 기본값**을 적용한다.
-
-```txt
-default_mode = operational_detail_report
-```
-
-즉 기본 출력은:
-- 운영 전달용
-- 한 장 자기완결형
-- 5~6줄 설명 허용
-- "왜"보다 "누가 / 언제 / 무엇을 / 어디서 확인" 우선
-
-내부 파라미터 기본값:
-
-```txt
-detail_level = 8
-layout_variance = 3
-content_preservation_priority = max
-execution_clarity_priority = max
-```
-
-의미:
-- `detail_level`: 설명 밀도
-- `layout_variance`: 레이아웃 변주 강도
-- `content_preservation_priority`: 형식보다 내용 보존 우선 여부
-- `execution_clarity_priority`: 실무 실행 가능성 우선 여부
-
----
-
-## Step 1.5. 콘텐츠 분석 (내부 — 출력 안 함)
-
-Step 2 진입 전 아래를 내부적으로 수행한다. 사용자에게 출력하지 않는다.
-
-**① 사실 추출 — delta 고정값**
-
-수치·고유명사·시스템명·날짜는 원본과 동일하게 고정한다. 이 값은 슬라이드 본문에서 변경 불가.
-동사·조사·연결어는 슬라이드 형식에 맞게 최소 조정 허용. 새로운 사실 추가는 절대 금지.
-
-**② 콘텐츠 타입 분류 → 컴포넌트 결정**
-
-대원칙:
-- 컴포넌트는 내용을 **번역**할 뿐 내용을 **재단**하면 안 된다.
-- 내용 손실이 우려되면 더 단순한 텍스트형 / 설명형 컴포넌트를 선택한다.
-- 운영용(=디테일용=보고서형)에서는 sparse pitch deck 스타일을 사용하지 않는다.
-- 작은 카드 여러 장으로 내용을 억지 분할하지 않는다. 한 장 자기완결이 가능하면 큰 설명 블록 + 도식/이미지형 표현을 먼저 검토한다.
-- 구조 설명은 카드 fallback이 아니라 `diagram / flow / mapping / report_table` 계열을 먼저 선택한다.
-
-**강제 규칙 — 모든 덱에 예외 없이 적용:**
-- **첫 슬라이드**: 반드시 `cover()` — 사용자가 생략을 요청해도 포함한다.
-- **클로징 없음**: 마지막은 콘텐츠 슬라이드로 끝낸다.
-- **테마는 Q4로 반드시 묻는다.** 사용자가 답하지 않은 경우에만 fallback으로 `theme="dark"`. light는 "라이트로", "light theme" 같이 명시 요청 시에 사용. **묻지 않고 default로 직행하는 것은 규칙 위반.**
-- **표지 제목 2줄 이내**: `cover(title=...)` 의 `\n` 개수 1개 이하. 3줄 이상 시 자동 트림 + 경고.
-- **표지 날짜 자동 반영**: `cover()`의 `date`를 생략하면 생성 시점의 오늘 날짜를 `yyyy.mm.dd` 형식(공백 없음, 좁은 텍스트박스에서 줄바꿈 방지)으로 자동 입력한다. 사용자가 특정 날짜를 명시한 경우에만 `date="..."`를 넘긴다.
-- **테마 선택**: `theme="light"` 또는 `theme="dark"` — 각각 별도 지정 템플릿 cover 사용.
-- **light cover 기준**: KPI 라이트 템플릿 `1BBG9PR6ZBsEABbJLhbUUfRMkgGYQtNMOWAmLQgPhr70`
-- **dark cover 기준**: 다크 가이드 템플릿 `1HJbTWXPCr38gXDQuarglSLrkheDQXAojlrYUKcfVgAc`
-- **KPI 덱**: `template="kpi"` — 라이트 모드 전용. `kpi_status()` + `kpi_tasks()` 사용.
-
-중간 슬라이드 컴포넌트 결정 (위에서 아래로 순서대로 확인, 첫 번째 일치 항목 사용).
-
-**선택 원칙 (시트는 결과 레퍼런스, 입력 슬롯이 아니다):**
-- 콘텐츠가 mk_* 컴포넌트의 슬롯(항목 수·키 형식)에 **정확히 일치하지 않으면** 자유 레이아웃 우선.
-- mk_*는 슬롯이 명백히 일치할 때만 — 강제 매핑(끼워맞추기)은 절대 금지.
-- 디자인 토큰(색·간격·타이포)은 자유 레이아웃에서도 시트와 동일하게 적용된다.
-
-| 타입 | 판단 기준 | 사용 방식 |
-|-----|---------|------------|
-| 단순 서술/나열 | 구조화 어려운 설명·주의사항·요약 본문 | `slide()` |
-| 단일 강조 메시지 | 한 슬라이드 = 한 문장 강조 | `callout()` |
-| 챕터 구분 (SECTION 01/02) | 큰 오렌지 숫자 + 라벨 + 제목 — 발표 휴지 구간 | `section_divider()` |
-| **핵심 수치 2~4개 (★V3)** | 목표/실적/달성률 — 수치가 슬라이드의 주인공 | `start_slide()` + `stat_row()` |
-| **수치 크기 비교 (★V3)** | 항목별 양·비중 비교 (점유율, 건수 등) | `start_slide()` + `bars()` |
-| **진척도 % (★V3)** | 항목별 진행률 표기 | `start_slide()` + `progress()` 반복 |
-| **일정·마일스톤 (★V3)** | 날짜 순 진행 단계 3~6개 | `start_slide()` + `timeline()` |
-| **상태 라벨 (★V3)** | 완료/대기/위험 짧은 칩 — 다른 블록과 조합 | `badge()` |
-| **실물·화면 증빙 (★V3)** | 스크린샷/제품 컷/도식 PNG | `image()` / `full_image()` |
-| 완료·미완료 체크리스트 | 항목별 완료 여부 점검 (●/○ 마크) | `checklist()` |
-| 순서·방법 안내 | "이 순서대로 따라해라" 단계 안내 (01-NN 숫자 라벨) | `numbered_steps()` |
-| 자유 카드 조합 | 항목 수가 4개+ 또는 시트 슬롯과 다른 카드 그룹 | `start_slide()` + `card()` 반복 |
-| 자유 플로우 조합 | 단계 7개+ 또는 자유 형태 단계 | `start_slide()` + `flow_step()` 반복 |
-| 자유 비교 조합 | 비교 6행+ 또는 비교 + 결론을 한 슬라이드에 | `start_slide()` + `compare_pair()` 반복 |
-| **시트 슬롯 정확 일치 — Before/After** | 항목별 before→after, 정확히 1~5행 | `mk_compare_rows` |
-| **시트 슬롯 정확 일치 — 프로세스 강조** | 정확히 3~6단계, 동일 형태 | `mk_flow_focus` |
-| **시트 슬롯 정확 일치 — 프로세스 밀도** | 6단계 이상, 비용/시간 포함 | `mk_flow` |
-| **시트 슬롯 정확 일치 — 팀 매핑** | 팀(행) × 항목(열), **정확히 3행 이하** | `mk_swimlane_mapping` |
-| **시트 슬롯 정확 일치 — 3카드** | 정확히 3개 동등 항목 | `mk_3col_cards` |
-| **시트 슬롯 정확 일치 — 분기** | YES/NO 두 갈래 결정 | `mk_decision_tree` |
-| **시트 슬롯 정확 일치 — 레이어** | 입력→처리→출력 레이어 | `mk_arch_layers` |
-| KPI 진행 현황 | KPI / 목표 / 실적 / 달성률 | `kpi_status()` ★ template="kpi" |
-| KPI 핵심과제 | 연관KPI / 핵심과제 / 실행계획 | `kpi_tasks()` ★ template="kpi" |
-| **결론 페이지 (선택)** — 대부분 사용 안 함 | 좌 큰 메트릭 + 우 디테일 4개 (시트 mk_conclusion_detail 양식) | `conclusion(metric, caption, details=[...])` |
-
-**이미지·도식형 구현 우선 제안 규칙:**
-
-아래에 해당하면 텍스트 카드만 제안하지 말고, Step 2 구성안에서 `이미지/도식 구현 권장`을 함께 표시한다.
-
-- 실제 화면·패키지·제품·운영 화면을 보여주는 편이 빠른 경우 → 스크린샷/제품 이미지/이미지 콜라주
-- 공간 관계·부품 관계·시스템 관계가 핵심인 경우 → 다이어그램/아키텍처 맵/레이어 이미지
-- Before/After가 시각 차이 중심인 경우 → 좌우 비교 이미지 + 짧은 캡션
-- 절차가 5단계 이상이고 텍스트로만 보면 길어지는 경우 → 플로우 인포그래픽
-- 이해관계자·팀·승인 흐름이 얽힌 경우 → swimlane/프로세스 맵 이미지
-- 숫자보다 패턴·분포·변화 추세가 중요한 경우 → 차트 이미지 또는 데이터 시각화
-- 사용자가 “보기 쉽게”, “한눈에”, “디자인이 이상함”, “페이지 수 줄여”라고 말한 경우 → 이미지형 대안 1개 이상 제안
-
-주의:
-- 이미지형 구현도 원본에 없는 사실을 창작하지 않는다.
-- 실제 이미지 원본이 없으면 “필요 이미지”로 명시하고, 대체로 사용할 수 있는 도식형 시안을 제안한다.
-- 이미지가 더 낫더라도 텍스트 근거·수치·고유명사는 슬라이드 안에 짧게 남긴다.
-
-**자유 레이아웃 빌딩 블록:**
-
-```python
-# 슬라이드 시작 — eyebrow는 모든 콘텐츠 슬라이드에 권장 (★ 표준)
-b.start_slide(heading="슬라이드 제목", eyebrow="CATEGORY")
-
-# 카드 — emphasis 옵션:
-#   None / 미지정 : 일반 (surface + border, 라벨 = accent 오렌지 항상)
-#   "dim"         : 약한 강조 (accent_bg + accent border)
-#   "full"        : 풀 ORANGE 배경 + 검정 텍스트 (★ 한 슬라이드 1개만 허용)
-# 본문(card body / flow desc / compare 본문) = 9pt + line spacing 1.5 (코드 토큰 자동 적용)
-b.card(x=40, y=110, w=200, h=120, label="01", title="제목",
-       body="본문 (**굵게** 마크업 자동)", emphasis=None)
-
-# footer 섹션이 필요한 카드 (mk_conclusion_detail 스타일)
-b.card(x=40, y=110, w=200, h=200, label="01", title="제목",
-       body="본문",
-       footer_label="현재 지점", footer_body="**핵심값** 보강 메시지")
-
-# 플로우 단계 — 가로 자유 배치, primary=True로 강조 단계 1개 지정
-b.flow_step(x=40, y=110, w=160, h=140, num="01", name="단계명",
-            desc="설명 (**굵게**)", primary=False)
-
-# 비교 행 — y만 지정 (가로 자동 배치), 여러 번 호출 가능
-b.compare_pair(y=110, item="항목1", before="기존", after="개선")
-b.compare_pair(y=144, item="항목2", before="기존", after="개선")
-
-# 단일 강조 메시지 슬라이드
-b.callout(text="핵심 메시지 한 줄", sub="부연 설명")
-
-# 결론 페이지 (선택, 대부분 사용 안 함) — 시트 mk_conclusion_detail 양식
-b.conclusion(metric="QR 1종", caption="**3대 부담 해소**",
-             heading="결론", eyebrow="CONCLUSION",
-             details=[{"label": "관리", "body": "..."},
-                      {"label": "일정", "body": "..."}])
-
-# 자유 텍스트 (큰 헤더, 라벨 등)
-b.text(x=40, y=110, w=300, h=24, content="자유 위치 **굵게**", size=14, bold=True)
-
-# 구분선
-b.divider(x=40, y=240, w=640, orange=False)
-
-# ── V3 리치 블록 — 수치·차트·일정·상태·이미지 ──────────────────
-
-# 큰 숫자 메트릭 2~4개 가로 배치 (수치가 주인공인 슬라이드의 표준)
-#   tone 생략 = 기본 텍스트색 (오렌지 규율 자동 준수), 핵심 1개만 tone="accent"
-#   delta_tone: "good"(증가/정상) / "warn"(대기) / "bad"(감소/위험)
-b.stat_row(y=120, stats=[
-    {"value": "96.4%", "label": "H1 달성률", "delta": "+4.2%p", "delta_tone": "good"},
-    {"value": "12건", "label": "완료 항목", "delta": "잔여 3건", "delta_tone": "warn"},
-])
-
-# 가로 바 차트 — 항목별 수치 비교. primary=True 1개만 오렌지, 나머지 중립 회색
-b.bars(x=48, y=120, w=624, data=[
-    {"label": "쿠팡", "value": 42, "display": "42%", "primary": True},
-    {"label": "아마존 US", "value": 31, "display": "31%"},
-])
-
-# 진행률 바 — 달성률/진척도 한 줄
-b.progress(x=48, y=120, w=500, pct=72, label="울트라 하이브리드 — 검수 중", tone="accent")
-
-# 가로 타임라인 — 일정/마일스톤. state: done(green)/current(orange)/next(중립)
-b.timeline(y=140, milestones=[
-    {"label": "디자인 확정", "date": "05.30", "state": "done"},
-    {"label": "문안 검수", "date": "06.18", "state": "current"},
-    {"label": "본 발주", "date": "06.27", "state": "next"},
-])
-
-# 상태 배지 — 시맨틱 틴트 칩. tone: good/warn/bad/accent/neutral
-b.badge(x=572, y=118, text="진행중", tone="accent")
-
-# 이미지 — 공개 접근 가능 URL 필수 (스크린샷·제품 컷 증빙)
-b.image(url="https://...", x=48, y=100, w=300, h=200)
-b.full_image(url="https://...", heading="패키지 시안", eyebrow="DESIGN",
-             caption="2026.06 인쇄 샘플 촬영본")
-```
-
-> ★ **모든 콘텐츠 슬라이드에 eyebrow 권장**. 카테고리 라벨로 슬라이드 의미 명확화 (예: PROBLEM / COMPARE / ACTION PLAN / WORKFLOW / STATUS / CONCLUSION).
-> 표지(cover)에는 eyebrow 사용 안 함.
-
-토큰은 `import spigen_tokens as T`로 직접 사용 가능.
-- `T.CANVAS["margin"]`, `T.SPACING["card_gap"]`, `T.TYPO["heading"]`, `T.color("ORANGE")` 등.
-
-KPI 덱은 `SpigenBuilder(title, template="kpi")`로 생성한다. 표지·마지막 슬라이드는 KPI 전용 템플릿에서 복사.
-
-**mk_* 컴포넌트 props 형식 레퍼런스 (시트 슬롯 정확 일치 시만):**
-
-```python
-# mk_compare_rows — 행별 before/after 비교
-lib.mk_compare_rows(oid, rows=[
-    {"item": "항목명", "before": "기존 상태", "after": "변화/문제"},
-], reqs=b.reqs, left_label="기존", right_label="제안",
-   is_bilateral=True,   # 대립 구도가 아닌 대등한 분기일 때
-   callout="핵심 메시지 한 줄")
-
-# mk_flow_focus — 단계 강조 흐름 (최대 6단계)
-lib.mk_flow_focus(oid, steps=[
-    {"num": "01", "name": "단계명", "service": "카테고리", "desc": "설명\n두 줄 가능", "primary": True},
-], reqs=b.reqs)
-
-# mk_swimlane_mapping — 팀 역할 분담 (최대 3행)
-lib.mk_swimlane_mapping(oid, rows=[
-    {"left": "팀명", "middle": "액션", "right": "결과/산출물"},
-], reqs=b.reqs)
-
-# mk_3col_cards — 독립 항목 3개
-lib.mk_3col_cards(oid, cards=[
-    {"label": "레이블", "title": "카드 제목", "items": ["항목1", "항목2"], "hot": True},
-], reqs=b.reqs, theme="light")
-
-# mk_decision_tree — YES/NO 분기
-lib.mk_decision_tree(oid, nodes={
-    "input": "입력",
-    "decision": "판단 질문?",
-    "yes": "YES 결과", "yes_label": "예",
-    "no": "NO 결과",  "no_label": "아니오",
-    "output": "최종 결과",
-}, reqs=b.reqs)
-```
-
-**③ Voice Fingerprint 확인 (생성 전 내부 체크)**
-
-헤더·본문 작성 전 아래를 머릿속으로 확인한다:
-- 헤더: **명사형 강제**, 10자 이내 권장
-    - O: "패키지 리뉴얼 방향" / "바커 자동화 흐름" / "전용 대치 진행" / "오류 대응" / "사용 범위"
-    - X: "패키지를 리뉴얼한다" / "바커를 자동화한다" / "전용 대치를 진행한다" / "오류에 대응한다"
-    - 동사 어미(`~한다` `~된다` `~만든다` `~한 검토`) 금지 → 명사형으로 변환 (`~제작` `~검토` `~방안` `~흐름` `~방법`)
-    - 모든 슬라이드 헤더(`cover` 제외 `start_slide`/`section_divider`/`callout`/`checklist`/`numbered_steps`/`conclusion`)에 동일 적용
-- bullet: 1줄 이내, 슬라이드당 3줄 이하
-- 수치가 있으면 수치 먼저, 설명은 다음
-- AI 클리셰 없음: 혁신적인·원활한·극대화·시너지·솔루션·최적화 → 구체 수치·사실로 대체
-- **수치 위조 금지**: "10배 향상", "99% 정확도", "3배 효율" 등 원본에 없는 수치·퍼센트·배율은 절대 사용 금지. AI 클리셰보다 더 위험한 패턴. 수치가 없으면 수치 없이 쓰거나 슬라이드를 줄인다.
-- **플레이스홀더 금지**: 내용이 없는 슬라이드를 "추가 예정", "내용 입력", 빈 카드로 채우지 않는다. 채울 내용이 없으면 슬라이드를 제거한다.
-- 원본에 없는 내용 추가 없음
-
----
-
-## Step 2. 슬라이드 구성 제안
-
-수집한 내용을 바탕으로 슬라이드 구성을 제안한다.
-
-출력 형식:
-```
-=== 슬라이드 구성 ===
-
-[1] 표지 — (제목)
-[2] (슬라이드 제목) — (핵심 내용 1줄)
-[3] ...
-
-승인하시면 생성을 시작합니다.
-```
-
-슬라이드 수 기준:
-
-| 목적 | 권장 장수 |
-|------|----------|
-| 빠른 보고 | 3~5장 |
-| 교육·안내 | 5~8장 |
-| 제안서 | 4~7장 |
-
-한 장에 담을 수 있는 정보량이 자연스럽게 늘어나는 경우 페이지를 늘리지 말고 한 장 자기완결형으로 합친다. 단, 서로 다른 의사결정 주제 2개를 한 장에 억지로 합치지는 않는다.
-
-슬라이드 유형 선택:
-
-| 상황 | 유형 |
-|------|------|
-| 일반 내용 | `slide()` — 헤더 + 텍스트박스 |
-| Before/After 또는 두 항목 비교 | `two_col()` — 2단 분리 |
-| 첫 슬라이드 | `cover()` — 표지 |
-
-컴포넌트를 먼저 정하지 않는다. 내용을 파악한 뒤 유형을 결정한다.
-
-승인 없이 Step 3으로 넘어가지 않는다.
-
----
-
-## Step 3. Preflight Gate
-
-생성 스크립트를 작성하기 전에 반드시 `/tmp/spigen_plan_<BUILD_NAME>.json`을 만들고
-`spigen_preflight.py`를 실행한다.
-
-목적:
-- 자료 목적 → 섹션 구조 → 슬라이드 역할 → 컴포넌트 선택 순서를 강제한다.
-- 구조 설명을 카드로 압축하거나, 논의 항목을 카드로 만드는 실수를 막는다.
-- 7장 이상 덱에서 섹션 구분 없이 슬라이드를 나열하는 실수를 막는다.
-
-필수 JSON 형식:
-
-```json
-{
-  "purpose": "운영 구조 설명",
-  "audience": "프로젝트 참여자",
-  "mode": "operational_detail_report",
-  "sections": [
-    {
-      "title": "현재 구조",
-      "slides": [
-        {"title": "전체 구조", "role": "structure", "component": "diagram"}
-      ]
-    },
-    {
-      "title": "추가 논의 항목",
-      "slides": [
-        {"title": "논의 항목 1", "role": "agenda", "component": "numbered_text"}
-      ]
-    }
-  ]
-}
-```
-
-실행:
-
-```bash
-python3 ~/.agents/skills/spigen-slides/spigen_preflight.py /tmp/spigen_plan_<BUILD_NAME>.json
-```
-
-실패 시:
-- 빌드하지 않는다.
-- 섹션, role, component를 수정한 뒤 다시 실행한다.
-
-특히 아래는 실패로 본다:
-- 7장 이상인데 섹션이 2개 미만
-- 논의 항목을 card / 3col_cards로 구성
-- 구조 설명을 diagram / flow / arch 계열이 아닌 카드 위주로 구성
-- 작동 방식을 flow / diagram 계열이 아닌 카드 위주로 구성
-
----
-
-## Step 4. 생성
-
-승인된 구성대로 Python 빌드 스크립트를 작성하고 실행한다.
-
-### 기본 빌드 패턴
-
-```python
-import os, sys, shutil
-
-# 필수 파일 복사 (에이전트 스킬 경로 — ~/.agents 와 ~/.claude 가 심링크된 환경 모두 동작)
-SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
-for f in ["spigen_build.py", "spigen_lib.py",
-          "spigen_models.py", "spigen_layout.py", "spigen_tokens.py"]:
-    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
-sys.path.insert(0, "/tmp")
-
-from spigen_build import SpigenBuilder, load_pid, save_pid
-import spigen_lib as lib
-
-BUILD_NAME = "my_deck"  # ← in-place 빌드용 PID 캐시 키 (덱마다 고유)
-
-def build(theme):
-    lib.set_theme(theme)
-    pid = load_pid(BUILD_NAME, theme)
-    b = SpigenBuilder("(PPT 제목)", theme=theme, presentation_id=pid)
-    if pid is None:
-        save_pid(BUILD_NAME, theme, b.pid)
-
-    # [1] 표지 — subtitle 사용 안 함 (V6: 표지 제목 2줄 이내)
-    b.cover(title="(제목 1줄)\n(제목 2줄)")  # date 생략 시 오늘 날짜 자동 입력
-
-    # [2] 콘텐츠 슬라이드 — eyebrow 항상 명시 (★ 권장)
-    b.start_slide(heading="슬라이드 제목", eyebrow="CATEGORY")
-    b.card(x=40, y=110, w=200, h=180, label="01", title="...", body="...")
-    # ... 추가 빌딩 블록 자유 호출
-
-    # [3] 체크리스트 — 점검(완료 여부) 의도일 때 eyebrow 권장
-    b.checklist(heading="진행 현황", eyebrow="STATUS",
-                items=[("항목", True), ...])
-
-    # [3-b] 순서 안내 — "방법", "순서", "단계", "절차", "흐름" 의도일 때
-    #   체크리스트와 다른 점: ●/○ 마크 대신 01-NN 숫자 라벨
-    b.numbered_steps(heading="실행 방법", eyebrow="HOW TO RUN",
-                     items=["첫 단계", "두 번째 단계", "세 번째 단계"])
-
-    # [3-c] 챕터 구분 — SECTION 01/02 처럼 발표를 큰 단원으로 나눌 때
-    #   큰 오렌지 숫자(Proxima Nova 100pt) + 작은 dim "Section" 라벨 + 큰 흰색 제목
-    #   "방법", "흐름", "단계" 같은 큰 단원 발표 휴지 구간에서 사용
-    b.section_divider(1, "바커 진행 방법", label="Section")
-    b.section_divider(2, "전용 대치")  # label default "Section"
-
-    # [4] 결론 (선택, 대부분 안 씀)
-    b.conclusion(metric="...", caption="...", heading="결론",
-                 eyebrow="CONCLUSION", details=[...])
-
-    ok = b.flush()
-    if ok:
-        print(f"[{theme}] {'NEW' if pid is None else 'UPDATE'} "
-              f"https://docs.google.com/presentation/d/{b.pid}/edit")
-
-build("dark")  # ← default 테마. light는 사용자 명시 시에만.
-```
-
-**빌드 표준**
-- `theme="dark"` default — light는 사용자가 명시 요청 시에만
-- `subtitle` 표지에 사용 안 함 (제목만 2줄 이내)
-- 모든 콘텐츠 슬라이드에 `eyebrow` 권장 (카테고리 라벨)
-- in-place 모드 (`load_pid` / `save_pid`) — 같은 덱은 같은 URL에 누적 수정
-- 빌드 후 검증은 자동 호출하지 않음 — 완료 내용과 링크를 전달한 뒤 `2. 검증을 실행할까요?` 를 묻는다
-- `clear_pid()` 사용 금지 — 사용자가 명시적으로 새 덱을 요구하지 않은 한 PID 캐시를 지우면 안 된다
-
-### In-Place 게이트
-
-수정 작업에서는 **PID 안정성 게이트**를 먼저 통과해야 한다.
-
-```bash
-python3 ~/.agents/skills/spigen-slides/spigen_pid_guard.py expect-stable <BUILD_NAME> dark
-python3 /tmp/build_<name>.py
-python3 ~/.agents/skills/spigen-slides/spigen_pid_guard.py assert-stable <BUILD_NAME> dark
+[N] (제목)
+주장: 이 슬라이드가 증명하는 단 한 문장. "그래서 뭐?"에 답이 되어야 한다.
+근거: 주장을 뒷받침하는 원본 사실·수치 (원본에 없는 것 창작 금지)
+화면: 이 주장을 어떻게 보여줄지 — 자유롭게. 컴포넌트 이름이 아니라 "어떻게 보이는가"로.
+시선: 눈이 어디서 시작해 어디로 흐르는가 (①→②→③). 한 방향(좌→우 / 위→아래)으로 정리.
+어조: 명사형 헤더 / 서술형 줄글 금지 / 핵심만 — 이 슬라이드 텍스트가 이걸 지켰는지 자가 확인.
 ```
 
 규칙:
-- 기존 PID가 있는데 build 후 PID가 바뀌면 실패
-- 실패 시 완료 보고 금지
-- 사용자가 `"새 덱으로"`, `"새 링크로"`, `"다시 새로 생성"` 을 명시한 경우에만 `--allow-new` 허용
+- 주장은 **결론**이어야 한다. "X의 단계 / X의 구성"은 주장이 아니라 목차다 — 그런 슬라이드는 합치거나 버린다.
+- **내용 충분성 게이트**: 원본에서 주장을 뽑을 근거가 부족하면 빌드를 멈추고 사용자에게 되묻는다("이 내용으로 무엇을 말하고 싶으세요? 결론이 무엇인가요?"). AI는 내용을 창작하지 않는다.
+- "화면"은 직전 덱을 베끼지 말고 이 내용에서 새로 도출한다. 같은 종류의 내용이라도 주장이 다르면 다른 화면이 나와야 정상이다.
+
+승인 형식: `[N] (제목) — 주장: ... / 화면: ...` 를 나열하고 승인받는다. 표지는 브리프 대상이 아니다(템플릿 복사).
+
+---
+
+## 고정 1. 표지 (직접 그리지 않음)
+
+표지는 지정 템플릿 cover를 복사하고 텍스트만 교체한다. **어떤 상황에도 모드별 표지 디자인은 동일하게 유지** — 본문을 어떻게 그리든 표지 복사·매핑 로직은 건드리지 않는다.
+
+- light cover 템플릿: `1BBG9PR6ZBsEABbJLhbUUfRMkgGYQtNMOWAmLQgPhr70`
+- dark cover 템플릿: `1HJbTWXPCr38gXDQuarglSLrkheDQXAojlrYUKcfVgAc`
+- `cover(title=...)` — 제목 2줄 이내(`\n` 1개 이하). `date` 생략 시 오늘 날짜 자동 입력.
+- 첫 슬라이드는 항상 `cover()`. 마지막은 콘텐츠 슬라이드로 끝낸다(클로징 없음).
+
+---
+
+## 고정 2. 브랜드 토큰
+
+색은 hex 문자열이 아니라 `{"red","green","blue"}` 0~1 dict로 전달한다. 빌더의 `b.c[...]`로 테마별 값을 바로 쓸 수 있다.
+
+- 담당자 `한원진 담당` / 부서 `디자인부문ㅣ패키지디자인팀`
+- 폰트: Noto Sans KR (한글) — 빌더 기본값
+- 오렌지(브랜드 accent, 포인트 컬러): `#FF6B1A` = `b.c["accent"]`
+- dark: 배경 `#000000`, 텍스트 `#F5F5F5`(`b.c["fg"]`), dim `#ACACAC`(`b.c["dim"]`), line `#323232`(`b.c["border"]`), surface `#0E0E0E`(`b.c["surface"]`)
+- light: 배경 `#FFFFFF`, 텍스트 `#1C1C1E`
+- 의미색: green `#34A853`(완료/정상) / yellow `#F5B041`(대기/보정) / red `#FF7A7A`(위험) — 의미가 있을 때만, 장식용 금지
+- 오렌지는 브랜드 포인트이자 1순위 강조색이다. 모든 것을 오렌지로 칠하지 않는다 — 강조는 절제할수록 강하다.
+
+---
+
+## 고정 3. 어조 (회사 보이스 — 글 쓰는 법, 디자인 아님)
+
+- **헤더는 명사형.** 동사 어미(`~한다` `~된다` `~만든다`) 금지 → 명사형(`~제작` `~검토` `~방안` `~흐름`). 10자 이내 권장.
+- **간결·정확.** 서술형 줄글을 피하고 핵심만. 한 항목 1줄 이내 권장.
+- **AI 클리셰 금지**: 혁신적인·원활한·극대화·시너지·솔루션·최적화·스마트한·강력한·게임체인저 → 구체 사실·수치로.
+- **수치 위조 금지**: 원본에 없는 "10배 향상", "99% 정확도" 등 절대 금지. 수치가 없으면 수치 없이 쓴다.
+- **플레이스홀더 금지**: "추가 예정", "내용 입력", 빈 자리로 채우지 않는다. 채울 내용이 없으면 슬라이드를 줄인다.
+
+---
+
+## 고정 4. 시각 원칙 (레이아웃 지정 아님 — 어떻게 그리든 지킬 성질)
+
+레이아웃을 정하지 않는다. 화면을 어떻게 구성하든 아래는 만족해야 한다. 이게 없으면 자유도가 산만함으로 샌다.
+
+- **시선 흐름**: 눈이 한 방향으로 흐르게 한다(좌→우 / 위→아래). 요소가 사방에 흩어지면 어디부터 볼지 길을 잃는다.
+- **정렬**: 모든 요소를 보이지 않는 격자에 맞춘다. 들쭉날쭉한 가장자리·제멋대로인 시작점이 아마추어 인상의 가장 흔한 원인. x·y 좌표를 눈대중하지 말고 같은 열·행은 같은 값으로.
+- **강조 절제**: 강조(오렌지·굵게·큰 크기)는 한 화면에 1~2개만. 다 강조하면 강조가 없는 것과 같다. 표·나열처럼 동등한 항목들은 강조하지 않는다 — 균일하게 둔다.
+- **장수 최소**: 요약·목차·클로징 같은 보조 페이지를 넣지 않는다. 한 장에 담을 수 있으면 합친다. 페이지로 내용을 늘리지 말고 줄인다.
+
+---
+
+## Step 3. 빌드 — 저수준 그리기 API
+
+화면은 아래 **그리기 프리미티브**로 직접 배치한다. 이게 전부다 — "이럴 땐 이 컴포넌트" 같은 목록은 없다. 캔버스는 720×405pt, 콘텐츠 영역은 y=100~373(위아래 여백 대칭).
+
+```python
+import os, sys, shutil
+SKILL_DIR = os.path.expanduser("~/.agents/skills/spigen-slides")
+for f in ["spigen_build.py", "spigen_lib.py", "spigen_tokens.py",
+          "spigen_models.py", "spigen_layout.py"]:
+    shutil.copy2(os.path.join(SKILL_DIR, f), f"/tmp/{f}")
+sys.path.insert(0, "/tmp")
+from spigen_build import SpigenBuilder, load_pid, save_pid
+import spigen_lib as lib
+
+BUILD_NAME, THEME = "my_deck", "dark"   # 같은 BUILD_NAME = 같은 URL에 누적 수정
+
+def build():
+    lib.set_theme(THEME)
+    pid = load_pid(BUILD_NAME, THEME)
+    b = SpigenBuilder("(제목)", theme=THEME, presentation_id=pid)
+    if pid is None:
+        save_pid(BUILD_NAME, THEME, b.pid)
+
+    # [1] 표지 — 템플릿 복사 (변경 금지)
+    b.cover(title="(제목 1줄)\n(제목 2줄)")
+
+    # [2~] 콘텐츠 슬라이드 — 헤더 후 자유 배치
+    b.start_slide(heading="(명사형 제목)", eyebrow="CATEGORY")
+    sid = b._current_slide   # _hline/_vline/_rect 의 첫 인자로 사용
+
+    # ── 그리기 프리미티브 (이걸로 무엇이든 자유롭게 구성) ──
+    # 텍스트 — 크기/굵기/색/정렬 자유. **굵게** 마크업 인식.
+    b.text(x=48, y=120, w=624, h=40, content="자유 위치 텍스트 **강조**",
+           size=14, bold=True, color=b.c["fg"], align="START")
+    # 큰 수치 한 덩어리
+    b.stat(x=48, y=120, w=200, value="96.4%", label="달성률", tone="accent")
+    # 선 (구분·정렬용)
+    b.divider(x=48, y=240, w=624, orange=False)        # 가로 구분선
+    b._hline(sid, 48, 200, 624, weight=0.5, color=b.c["border"])  # 가는 가로선
+    b._vline(sid, 360, 120, 130, weight=0.5, color=b.c["border"]) # 세로 분할선
+    # 사각형 (정말 묶음·강조가 필요할 때만 — 기본은 선·여백으로)
+    b._rect(sid, 48, 120, 300, 120, b.c["surface"], b.c["border"], 0.4)
+    # 이미지 (공개 URL 필수)
+    b.image(url="https://...", x=48, y=110, w=300, h=200)
+    b.full_image(url="https://...", heading="제목", eyebrow="DESIGN", caption="캡션")
+
+    ok = b.flush()
+    if ok:
+        print(f"https://docs.google.com/presentation/d/{b.pid}/edit")
+
+if __name__ == "__main__":
+    build()
+```
+
+빌드 규칙:
+- `theme="dark"` 기본 — light는 사용자가 명시할 때만. 테마는 Q4로 묻는다.
+- in-place: 같은 `BUILD_NAME`은 같은 URL에 누적 수정한다. `clear_pid()` 금지. 수정 빌드는 항상 **전체 슬라이드 코드**로 실행한다(in-place는 표지 외 전량 재생성이므로 일부만 빌드하면 나머지가 사라진다).
+- 색은 반드시 dict. 좌표는 캔버스·콘텐츠 영역 안에서.
+
+---
+
+## Step 4. 썸네일 채점 (깨짐만, 최대 1회)
+
+빌드 후 각 슬라이드 PNG를 받아 **직접 보고** 점검한다. "더 예쁘게"는 묻지 않는다 — 깨짐(요소 겹침, 캔버스/영역 넘침, 텍스트 잘림)만 본다. 발견 시 그 항목만 1회 수정하고 종료. 무한 수정 루프 금지.
 
 ```bash
-python3 /tmp/build_<name>.py
+# 슬라이드 objectId 조회
+gws slides presentations get --params '{"presentationId":"<PID>","fields":"slides.objectId"}'
+# 페이지별 썸네일 URL
+gws slides presentations pages getThumbnail --params '{"presentationId":"<PID>","pageObjectId":"<SID>","thumbnailProperties.thumbnailSize":"LARGE"}'
 ```
 
-완료 후:
-```
-완료: https://docs.google.com/presentation/d/<ID>/edit
-```
-
----
-
-## 슬라이드 구조 규칙
-
-### 표지 (`cover`)
-- 배경: 테마 색상
-- 왼쪽: 오렌지 세로선 (4pt)
-- 제목: 34pt Bold
-- 부제: 17pt muted
-- 하단: 부서 | 담당자 | 날짜 (11pt muted)
-
-### 본문 (`slide`)
-- 배경: 테마 색상
-- 헤더: 좌상단 22pt Bold
-- 오렌지 가로선: 헤더 아래 (2pt)
-- 본문: 14pt, 텍스트박스 전체
-
-### 2단 비교 (`two_col`)
-- 헤더 + 오렌지 가로선
-- 왼쪽 패널: 제목(오렌지) + 본문
-- 세로 구분선 (muted, 1pt)
-- 오른쪽 패널: 제목(오렌지) + 본문
-
----
-
-## 디자인 금지 규칙
-
-> 시각 일관성과 정보 전달력을 무너뜨리는 패턴들. 빌드 전 / 검토 시 반드시 점검.
-> 자세한 사양: `spigen_render_rules.md` · `spigen_design_spec.md`
-
-### 1. 색·대비
-- ❌ 배경(BG)과 동일한 fill / 선 / 테두리 (검정 위 검정 박스 등)
-- ❌ 검정 배경 위 `ACCENT_DIM` 텍스트
-- ❌ 검정 배경 위 어두운 오렌지·갈색 톤 텍스트
-- ❌ 모든 강조·상태·테두리·숫자를 오렌지로 통일
-- ❌ 긴 본문이나 보조 설명을 오렌지 계열 색으로 표기 — 오렌지는 강조 전용
-- ❌ `ACCENT_DIM`을 텍스트 색으로 사용 (배경 fill 전용)
-- ❌ **슬라이드당 오렌지(accent) 가시적 사용 2회 초과 (V6.3.3: eyebrow 제외)** — eyebrow는 헤더 메타로 항상 ORANGE 고정이므로 카운트에서 제외한다. 카운트 대상은 본문 영역의 오렌지 사용: 오렌지 구분선 / 오렌지 카드 테두리(normal/dim) / 풀 오렌지 카드(`emphasis="full"`) / 오렌지 텍스트 강조. 본문 영역 기준 슬라이드당 2회 이내, 3회 이상이면 우선순위가 낮은 것부터 제거한다.
-- ✅ 기본 카드 border는 neutral line(`#323232`)을 사용하고, 핵심 카드 1개만 orange border 또는 orange fill로 승격한다.
-- ✅ 상태값은 의미 색상을 쓴다: `DONE/PASS` = green, `NEXT/WAIT/보정` = yellow·amber, `RISK/BLOCK/FAIL` = red, 단순 구조/분리 = gray.
-
-### 2. 강조 카드 사용 제한
-- ❌ 한 슬라이드에 풀 ORANGE 강조 카드 (`emphasis="full"`) **2개 이상**
-- ❌ 한 슬라이드에 dim 강조 카드 (`emphasis="dim"`) **2개 이상** (V6.3.3 신설 — full 룰과 대칭)
-- ❌ **dim 카드 수 > normal 카드 수** (V6.3.3 신설). dim과 normal을 각각 비교.
-- ❌ **full 카드 수 > normal 카드 수** (V6.3.3 신설). full과 normal을 각각 비교.
-- ❌ **full 없이 dim 단독 사용 금지** (V6.3.3 신설) — dim을 쓰려면 같은 슬라이드에 full 1개 동반 필수. 약한 강조(dim)만 깔리면 위계 시그널 약해짐. full 단독은 OK (강한 강조).
-  - N=2: `full 1 + normal 1` 또는 `normal 2` — `dim 1 + normal 1`은 dim 단독이라 금지
-  - N=3: `full 1 + normal 2` 또는 `dim 1 + full 1 + normal 1` 또는 `normal 3` — `dim 1 + normal 2`는 dim 단독 금지
-  - N=4: `dim 1 + full 1 + normal 2` — 정석 풀하우스 패턴 (full + dim 위계 둘 다)
-- ❌ 분석 카드와 결론 카드를 **같은 크기·색·밀도**로 나란히 배치 (위계 무너짐)
-- ❌ 색만으로 의미 전달 (`color-only meaning`) — 형태/위치도 함께 차별화
-
-#### 풀 오렌지 (`emphasis="full"`) 사용 기준 (V6.3.3)
-- ✅ **덱 전체 상한 없음** — 슬라이드는 한 장씩 분리되어 표시되므로 페이지 임팩트가 다른 페이지에 누적되지 않는다. 한 슬라이드 1개 룰만 지키면 풀 카드는 덱에 몇 장이든 상관없다.
-- ✅ 결론 / 핵심 메트릭 슬라이드 — 풀 카드 1개 권장
-- ✅ 카드 N장 그룹에서 **사용자가 반드시 보길 원하는 단 하나의 카드** — 풀로 승격
-- ✅ 정석 패턴: `풀 1 + normal N-1` (또는 `dim 1 + normal N-1`, 또는 `dim 1 + full 1 + normal N-2`)
-- ✅ 풀 카드 안 텍스트는 **테마 바탕색** 자동 (dark=검정, light=흰색) — 코드가 처리 (V6.3.3)
-- ❌ 강조 의도 없이 풀 사용 — 단순 다양성 / 시각 채움 목적이면 normal 유지
-- ❌ 카드 모두 dim — 위계 없음. 1개를 풀로 승격하거나 모두 normal로 평준화
-
-### 3. 카드 구성
-- ❌ 카드 안에 강조용 sub-box 삽입 (박스 안 박스) — `emphasis` 토큰으로 대체
-- ❌ 비대칭 혼합 — 같은 슬라이드에 크기·비율 다른 카드 무근거 혼재
-- ❌ 한 슬라이드에 카드 유형 3종 이상 (1~2종 권장)
-- ❌ 동일 카드 5개 이상 단순 반복 (밀도만 채움, 위계 평평)
-- ❌ 과한 카드 라운드 — V2 기본은 crisp rectangle, 필요 시 radius 4pt 수준만 허용
-
-### 4. 레이아웃
-- ❌ 720 × 405pt 캔버스 밖으로 shape / 텍스트박스 / chart 가 나가는 상태
-- ❌ 콘텐츠 영역 (`y = 100 ~ 373`) 초과
-  - 위 빈 여백 32pt (slide top → eyebrow 시작 y=32)
-  - 아래 빈 여백 32pt (콘텐츠 끝 y=373 → slide bottom y=405) — **대칭 유지**
-- ❌ 눈대중 위치 조정 — 토큰값(margin 36/40, gap 8/12 등) 사용
-- ❌ 빈 도형·장식 구분선으로 공간 채우기 — 내용이 적으면 단순화
-- ❌ 카드 안 제목 위에 붙고 아래 여백만 과하게 남는 상태
-
-### 5. 타이포·콘텐츠
-- ❌ Noto Sans / Pretendard / Proxima Nova 외 폰트
-- ❌ AI 클리셰 — 혁신적인·원활한·극대화·시너지·솔루션·최적화·스마트한·강력한·게임체인저
-- ❌ **원본에 없는 수치·퍼센트·배율 사용** — "10배 향상", "99% 정확도", "3배 효율" 등 AI가 만들어낸 수치. 근거 없는 수치는 AI-slop의 핵심 지표. 수치가 없으면 수치 없이 쓴다.
-- ❌ **플레이스홀더 문구** — "추가 예정", "내용 입력", 빈 카드. 채울 내용이 없으면 슬라이드를 제거한다.
-- ❌ 함수명 / 파일명 / 변수명 직접 기재 (`mk_flow()`, `spigen_lib.py` 등)
-- ❌ 사내 약어·코드명 슬라이드 표기 (외부 청중인 경우)
-- ❌ Gradient text / 장식용 glassmorphism 기본 적용
-- ❌ **ALL CAPS 텍스트에 자간 미적용** — eyebrow 라벨("STATUS", "ACTION PLAN", "WORKFLOW" 등)은 대문자이므로 자간 0.06em 이상 필수. 자간 없는 대문자는 글자가 붙어 보이며 craft 실패의 가장 쉬운 식별 지표. (빌더가 강제 적용하지 않는 경우 token 확인)
-- ❌ **대형 헤더(34pt+)에 자간 미처리** — 표지 제목(34pt)·section_divider 숫자(100pt)는 자간 -0.01em~-0.03em 적용해야 글자가 뭉쳐 보이지 않음. 빌더 토큰 미반영 시 직접 명시.
-
-### 6. 위계·리듬
-- ❌ Hierarchy 평평한 구성 (모든 카드가 같은 강도)
-- ❌ Spacing rhythm 없는 균일 패딩
-- ❌ 같은 의미 역할인데 형태가 다름 / 다른 의미 역할인데 형태가 같음
-- ❌ 장식 목적의 색상·형태 변형 (의미가 형태를 결정한다)
-
-### 7. 불렛
-- ❌ Compact card / small rule card / 3-column card 안에 native paragraph bullets
-- ✅ 카드 계열은 텍스트 마커 (`■`, `▶`, `•`) 직접 입력
-- ✅ 넓은 본문 영역에서만 `paragraph_bullets` 호출 허용
-- ❌ 불렛이 첫 줄보다 위에 떠 있는 상태
-
-### 8. 차트·수치 (V3)
-- ❌ 그라디언트 fill / 3D / 과도한 애니메이션 차트
-- ❌ 여러 KPI 수치를 동등하게 나열 — 핵심 1개를 큰 숫자로 분리 (`stat_row`에서 핵심 1개만 `tone="accent"`)
-- ❌ `bars()`에서 모든 막대를 accent로 — `primary=True`는 1개만, 나머지는 중립 회색 자동
-- ❌ 수치·달성률·일정이 있는데 9pt 본문 줄글로만 서술 — `stat_row` / `bars` / `progress` / `timeline` 우선 검토
-- ❌ `badge()` 남발 — 슬라이드당 상태 칩은 행당 1개, 의미 없는 장식 배지 금지
-
-### 9. 슬라이드 메시지
-- ❌ 한 슬라이드에 경쟁하는 주 메시지 2개 이상
-- ❌ 공간 채우기 목적의 콘텐츠 추가 (여백 우선)
-- ❌ 제목에 동사 어미 사용 (`성능이 30% 향상됐다` / `리뉴얼한다`) — 명사형만 허용 (`성능 향상 30%` / `리뉴얼 방향`)
-
----
-
-## 생성 후 검증 제안
-
-이 스킬은 **덱 제작까지만 담당**한다. 빌드 완료 후에는 검증을 자동 실행하지 않는다.
-
-완료 보고는 아래 구조로 한다:
-
-```
-완성: <Google Slides URL>
-요약: (생성한 주요 내용 2~3줄)
-
-2. 검증을 실행할까요?
-검증을 실행하면 `spigen-slides-review` 스킬로 자동 검증과 3종 에이전트 검수를 진행합니다.
-```
-
-중요:
-- 사용자가 "검증해줘", "검수해줘", "2번", "검증 실행"처럼 명시하기 전에는 review gate를 실행하지 않는다.
-- 이 스킬에서 `spigen_review_gate.py init/status/cleanup`을 실행하지 않는다.
-- 검증은 별도 스킬 `spigen-slides-review`의 책임이다.
+완료 보고: Google Slides URL 전달. (검증·검수는 별도 `spigen-slides-review` 스킬 — 사용자가 명시할 때만.)
 
 ---
 
@@ -668,14 +179,8 @@ python3 /tmp/build_<name>.py
 
 | 파일 | 용도 |
 |------|------|
-| `spigen_build.py` | 슬라이드 빌더 (cover / slide / two_col / start_slide / 빌딩 블록 / V3 리치 블록 / 자동 강제 룰) |
-| `examples/demo_v3_build.py` | V3 리치 블록 실물 빌드 데모 — `python3 examples/demo_v3_build.py [dark|light]` |
-| `spigen_lib.py` | mk_* 컴포넌트 라이브러리 + THEME_TOKENS |
-| `spigen_tokens.py` | 디자인 토큰 (HEADER / SHEET_GEOM / SPACING / TYPO / FONT_HIERARCHY / EMPHASIS) |
-| `spigen_pid_guard.py` | 수정 모드 PID 안전성 확인 (expect-stable / assert-stable) |
-| `spigen_planning.md` | Step 1~2 기획 가이드 |
-| `spigen_execution.md` | Step 3 실행 코드 템플릿 |
-| `spigen_component_gallery.md` | 컴포넌트 인벤토리 |
-| `~/.claude/skills/craft-design-rules.md` | 범용 디자인 craft 규칙 (Anti-AI-Slop / 자간 / 색상 규율 / 80/20 소울 원칙) — 다른 디자인 스킬에서도 참조 |
+| `spigen_build.py` | 빌더 — cover / start_slide / 그리기 프리미티브(text·stat·divider·_hline·_vline·_rect·image·full_image) / flush |
+| `spigen_tokens.py` | 색·폰트·캔버스 토큰 |
+| `spigen_pid_guard.py` | in-place PID 안정성 확인 (expect-stable / assert-stable) |
 
-> 디자인 룰은 빌더 코드(`spigen_build.py` / `spigen_lib.py` / `spigen_tokens.py`)가 자동 강제. 코드로 못 잡는 텍스트·메시지·청중 차원 룰은 별도 `spigen-slides-review` 스킬의 페르소나 영역 매트릭스에서 검수한다.
+> 빌더 코드에는 과거의 카드형 헬퍼가 남아 있을 수 있으나, **이 문서는 그것들을 쓰지 않는다.** 화면은 위 그리기 프리미티브로 내용마다 새로 구성한다.
