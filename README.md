@@ -99,30 +99,15 @@ V3 리치 블록 데모: `python3 spigen-slides/examples/demo_v3_build.py dark` 
 
 ## 변경 이력
 
-### v3.0 (2026-06-10)
-- **V3 리치 블록 추가** — `stat()` / `stat_row()` 큰 숫자 메트릭, `bars()` 가로 바 차트,
-  `progress()` 진행률 바, `timeline()` 마일스톤 타임라인, `badge()` 시맨틱 상태 칩,
-  `image()` / `full_image()` 이미지 삽입. 모두 native 요소라 생성 후 Slides에서 편집 가능
-- **시맨틱 컬러 토큰 보강** — SKILL 규정에만 있고 코드에 없던 `warn`(YELLOW 계열) 추가,
-  badge/하이라이트용 틴트 배경(`good_bg`/`warn_bg`/`bad_bg`) dark·light 양 테마 내장
-- 컴포넌트 결정 테이블에 리치 블록 6종 추가 — 수치·일정·상태는 텍스트 줄글보다 시각화 우선
-- `_validate`가 `createImage`도 검사 (캔버스 초과/콘텐츠 영역 침범)
-- 빌드 스크립트 경로 `~/.agents/skills/` 통일 (`/Users/...` 하드코딩 제거) +
-  execution.md 의존 파일 누락 ImportError 수정
-- 중간 산출물 없음 원칙 유지 — HTML/PPTX 변환 경로를 도입하지 않고 Slides API 직접 생성만 사용
-- 데모: `spigen-slides/examples/demo_v3_build.py` (실제 Slides 빌드)
-
-### v2.0 (2026-06-10)
-- 메인 제작 스킬 phase를 `v7.0.0-v2`로 업데이트
-- 표지/KPI 보존 원칙 명시: `cover()`, `kpi_status()`, `kpi_tasks()`는 기존 템플릿 복사·매핑 로직 유지
-- 라이트/다크 표지 분리 규칙 명시: light는 라이트 템플릿, dark는 다크 가이드 템플릿 cover 사용
-- V2 본문 룩 반영: 과한 rounded card, pill 남발, box-in-box, 이모지, 그라디언트, 3D, 장식형 그림자 금지
-- V2 수정: V4 샘플 내지 기준으로 다크 팔레트 보정 (`#000000`, `#0E0E0E`, `#181818`, `#323232`, `#F5F5F5`, `#ACACAC`)
-- V2 수정: 오렌지 통일 금지, 상태값은 green/yellow/red 등 semantic color로 분리
-- 카드 R값 축소 규칙 추가: 기본 crisp rectangle, 필요 시 4pt 수준
-- 이미지·도식형 구현 제안 규칙 추가: 스크린샷, 제품 이미지, 다이어그램, 플로우, swimlane, 차트 우선 검토
-- 페이지 수 권장 범위 축소: 빠른 보고 3~5장, 교육·안내 5~8장, 제안서 4~7장
-- 해상도/좌표계 변경 시 템플릿 보존 우선 원칙 추가
+### v2.0 (2026-06-13)
+- **디자인 자유 / 출력만 고정** 철학으로 전면 개편
+- **V3 리치 블록 추가** — `stat_row()` 큰 숫자 메트릭, `bars()` 가로 바 차트, `progress()` 진행률 바, `timeline()` 마일스톤 타임라인, `badge()` 시맨틱 상태 칩, `image()` / `full_image()` 이미지 삽입
+- **시맨틱 컬러 토큰 보강** — `warn`(YELLOW 계열), badge/하이라이트용 틴트 배경(`good_bg`/`warn_bg`/`bad_bg`) dark·light 양 테마 내장
+- **고정 4종 확정**: 표지 / 브랜드 토큰(폰트·컬러) / 어조(간결·정확, 서술형 금지) / 시각 원칙 4종(시선흐름·정렬·강조 절제·장수 최소)
+- 카드 레이아웃 제한 제거 — 나열은 오픈 레이아웃 기본, 카드는 강조·묶음에만 사용
+- 요약 페이지 금지, 장수 최소 원칙 도입
+- 빌드 스크립트 경로 `~/.agents/skills/` 통일 (`/Users/...` 하드코딩 제거)
+- 중간 산출물 없음 원칙 유지 — Slides API 직접 생성만 사용
 
 ### v1.0 (2026-05-08)
 - 최초 외부 공유 버전

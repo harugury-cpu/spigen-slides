@@ -5,10 +5,10 @@ license: MIT
 metadata:
   category: productivity
   locale: ko-KR
-  phase: v8.0.0-open
+  phase: v2.0.0
 ---
 
-# spigen-slides (V8 — 디자인 자유 / 출력만 고정)
+# spigen-slides (V2 — 디자인 자유 / 출력만 고정)
 
 ## 이 스킬의 철학
 
