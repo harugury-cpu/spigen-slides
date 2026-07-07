@@ -2,7 +2,7 @@
 
 Google Slides 자동 생성을 위한 Claude Code 스킬 (Spigen 디자인 시스템 적용).
 
-> 사내 전용 공유 저장소 — 외부 공개·재배포 금지.
+> Spigen Korea 패키지디자인팀 운영 저장소. 코드는 공개되어 있으나, 템플릿 복사와 슬라이드 생성은 사내 Google Workspace 계정 권한이 있어야 동작한다.
 
 ## 구성
 
@@ -120,5 +120,5 @@ V3 리치 블록 데모: `python3 spigen-slides/examples/demo_v3_build.py dark` 
 
 ## 라이선스
 
-**사내 전용** — 외부 공유·재배포·인용 금지.
 Spigen Korea 디자인부문 패키지디자인팀 운영.
+Spigen 사내 사용 목적으로 제작된 스킬이며, 무단 재배포·인용은 삼가 주세요.
